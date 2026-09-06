@@ -1,0 +1,36 @@
+.tf-card {
+  @include surface;
+  overflow: hidden;
+}
+
+.tf-card--interactive {
+  @include interactive-lift;
+}
+
+.tf-card__header,
+.tf-card__body,
+.tf-card__footer {
+  padding: 1.5rem;
+}
+
+.tf-card__header {
+  border-bottom: 1px solid $border-color;
+}
+
+.tf-card__footer {
+  background-color: $surface-muted;
+  border-top: 1px solid $border-color;
+}
+
+.tf-card__title {
+  margin-bottom: 0.25rem;
+  font-size: 1.25rem;
+}
+
+.demo-panel {
+  height: 100%;
+  padding: 1.5rem;
+  background-color: $surface-muted;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-sm;
+}

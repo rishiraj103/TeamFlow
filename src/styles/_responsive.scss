@@ -1,0 +1,26 @@
+@include respond-up(md) {
+  .tf-card__header,
+  .tf-card__body,
+  .tf-card__footer {
+    padding: 2rem;
+  }
+}
+
+@include respond-up(lg) {
+  .app-shell__content {
+    max-width: 58rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .app-shell .container {
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+
+  .tf-card__header,
+  .tf-card__body,
+  .tf-card__footer {
+    padding: 1.25rem;
+  }
+}

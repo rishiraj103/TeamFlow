@@ -1,0 +1,31 @@
+.text-muted-strong {
+  color: $text-muted !important;
+}
+
+.text-subtle {
+  color: $text-subtle !important;
+}
+
+.bg-surface {
+  background-color: $surface !important;
+}
+
+.bg-surface-muted {
+  background-color: $surface-muted !important;
+}
+
+.u-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.u-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.u-focus-ring {
+  @include focus-ring;
+}

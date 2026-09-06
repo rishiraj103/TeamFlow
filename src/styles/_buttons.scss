@@ -1,0 +1,39 @@
+.btn {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  @include focus-ring;
+}
+
+.btn-teamflow-primary {
+  --bs-btn-bg: #{$primary};
+  --bs-btn-border-color: #{$primary};
+  --bs-btn-hover-bg: #{darken($primary, 8%)};
+  --bs-btn-hover-border-color: #{darken($primary, 8%)};
+  --bs-btn-active-bg: #{darken($primary, 12%)};
+  --bs-btn-active-border-color: #{darken($primary, 12%)};
+  --bs-btn-color: #ffffff;
+  --bs-btn-hover-color: #ffffff;
+  --bs-btn-active-color: #ffffff;
+  box-shadow: 0 0.5rem 1rem rgba($primary, 0.2);
+}
+
+.btn-teamflow-ghost {
+  color: $body-color;
+  background-color: transparent;
+  border-color: $border-color;
+
+  &:hover,
+  &:active {
+    color: $primary;
+    background-color: rgba($primary, 0.08);
+    border-color: rgba($primary, 0.35);
+  }
+}
+
+.btn-icon {
+  display: inline-grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  place-items: center;
+}

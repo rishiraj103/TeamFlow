@@ -1,0 +1,38 @@
+@use 'sass:map';
+
+@mixin focus-ring {
+  &:focus-visible {
+    outline: 3px solid rgba($primary, 0.28);
+    outline-offset: 3px;
+  }
+}
+
+@mixin surface($shadow: $box-shadow-sm) {
+  background-color: $surface;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+  box-shadow: $shadow;
+}
+
+@mixin interactive-lift {
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
+
+  &:hover {
+    border-color: rgba($primary, 0.35);
+    box-shadow: $box-shadow;
+    transform: translateY(-2px);
+  }
+}
+
+@mixin respond-up($breakpoint) {
+  @if map.has-key($teamflow-breakpoints, $breakpoint) {
+    @media (min-width: map.get($teamflow-breakpoints, $breakpoint)) {
+      @content;
+    }
+  } @else {
+    @warn 'Unknown TeamFlow breakpoint: #{$breakpoint}';
+  }
+}

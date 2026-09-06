@@ -1,0 +1,61 @@
+// TeamFlow tokens are declared before Bootstrap so its defaults can be themed.
+$primary: #536bff;
+$secondary: #63708a;
+$success: #28a875;
+$info: #3b9edb;
+$warning: #e6a23c;
+$danger: #d95d67;
+
+$body-bg: #f4f7fb;
+$body-color: #172033;
+$surface: #ffffff;
+$surface-muted: #eef2f8;
+$text-muted: #63708a;
+$text-subtle: #8b96aa;
+$border-color: #dce3ee;
+
+$font-family-sans-serif: (
+  'Inter',
+  ui-sans-serif,
+  system-ui,
+  -apple-system,
+  BlinkMacSystemFont,
+  'Segoe UI',
+  sans-serif
+);
+$font-family-base: $font-family-sans-serif;
+$font-size-base: 1rem;
+$line-height-base: 1.6;
+$headings-font-weight: 700;
+$headings-line-height: 1.2;
+
+$spacer: 1rem;
+$spacers: (
+  0: 0,
+  1: $spacer * 0.25,
+  2: $spacer * 0.5,
+  3: $spacer,
+  4: $spacer * 1.5,
+  5: $spacer * 3,
+  6: $spacer * 4,
+);
+
+$border-radius-sm: 0.5rem;
+$border-radius: 0.75rem;
+$border-radius-lg: 1rem;
+$box-shadow-sm: 0 0.25rem 0.75rem rgba(23, 32, 51, 0.06);
+$box-shadow: 0 1rem 2rem rgba(23, 32, 51, 0.08);
+
+$input-btn-focus-box-shadow: 0 0 0 0.25rem rgba($primary, 0.22);
+$component-active-bg: $primary;
+$enable-negative-margins: true;
+$enable-smooth-scroll: true;
+
+$teamflow-breakpoints: (
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px,
+);
+$teamflow-sidebar-width: 16rem;

@@ -1,0 +1,42 @@
+.status-badge,
+.priority-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.75rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.status-badge--active {
+  color: darken($success, 18%);
+  background-color: rgba($success, 0.13);
+}
+
+.status-badge--completed {
+  color: darken($info, 24%);
+  background-color: rgba($info, 0.13);
+}
+
+.status-badge--archived {
+  color: $text-muted;
+  background-color: rgba($text-muted, 0.13);
+}
+
+.priority-badge--high {
+  color: darken($danger, 18%);
+  background-color: rgba($danger, 0.13);
+}
+
+.priority-badge--medium {
+  color: darken($warning, 28%);
+  background-color: rgba($warning, 0.18);
+}
+
+.priority-badge--low {
+  color: darken($success, 18%);
+  background-color: rgba($success, 0.13);
+}
