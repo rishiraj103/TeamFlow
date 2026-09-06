@@ -29,3 +29,9 @@
 .u-focus-ring {
   @include focus-ring;
 }
+
+.spinner-border-lg {
+  width: 2rem;
+  height: 2rem;
+  border-width: 0.25em;
+}
