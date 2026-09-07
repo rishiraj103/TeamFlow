@@ -8,17 +8,11 @@ export const mobileNavigationId = 'teamflow-mobile-navigation'
 
 export interface MobileNavigationProps {
   open: boolean
-  activeRoute: string
   currentUser: LayoutUser
   onClose: () => void
 }
 
-export function MobileNavigation({
-  open,
-  activeRoute,
-  currentUser,
-  onClose,
-}: MobileNavigationProps) {
+export function MobileNavigation({ open, currentUser, onClose }: MobileNavigationProps) {
   const closeButtonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
@@ -87,28 +81,21 @@ export function MobileNavigation({
 
         <nav className="mobile-navigation__nav" aria-label="Mobile primary navigation">
           <ul className="sidebar__nav-list">
-            {navigationItems.map((item) => {
-              const isActive =
-                activeRoute === item.href || (activeRoute === '/' && item.href === '/dashboard')
-
-              return (
-                <li key={item.href} className="sidebar__nav-item">
-                  <NavLink
-                    to={item.href}
-                    className={({ isActive: routeIsActive }) =>
-                      `sidebar__nav-link${routeIsActive || isActive ? ' is-active' : ''}`
-                    }
-                    aria-current={isActive ? 'page' : undefined}
-                    onClick={onClose}
-                  >
-                    <span className="sidebar__nav-icon">
-                      <NavigationIconGlyph icon={item.icon} />
-                    </span>
-                    <span>{item.label}</span>
-                  </NavLink>
-                </li>
-              )
-            })}
+            {navigationItems.map((item) => (
+              <li key={item.href} className="sidebar__nav-item">
+                <NavLink
+                  to={item.href}
+                  className={({ isActive }) => `sidebar__nav-link${isActive ? ' is-active' : ''}`}
+                  end={item.href === '/dashboard'}
+                  onClick={onClose}
+                >
+                  <span className="sidebar__nav-icon">
+                    <NavigationIconGlyph icon={item.icon} />
+                  </span>
+                  <span>{item.label}</span>
+                </NavLink>
+              </li>
+            ))}
           </ul>
         </nav>
 
