@@ -1,5 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AppLayout } from './components/layout/AppLayout'
+import { ProtectedRoute, PublicOnlyRoute } from './components/routing/AuthRoute'
+import { AuthProvider } from './context/AuthContext'
 import { Analytics } from './pages/Analytics'
 import { Dashboard } from './pages/Dashboard'
 import { Login } from './pages/Login'
@@ -12,32 +14,39 @@ import { Team } from './pages/Team'
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
-        <Route path="/login" element={<Login />} />
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
-        <Route
-          element={
-            <AppLayout
-              pageTitle="TeamFlow workspace"
-              pageEyebrow="Application"
-              notificationCount={3}
-            />
-          }
-        >
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="projects" element={<Projects />} />
-          <Route path="projects/:projectId" element={<ProjectDetails />} />
-          <Route path="tasks" element={<Tasks />} />
-          <Route path="team" element={<Team />} />
-          <Route path="analytics" element={<Analytics />} />
-          <Route path="settings" element={<Settings />} />
-        </Route>
+          <Route element={<PublicOnlyRoute />}>
+            <Route path="/login" element={<Login />} />
+          </Route>
 
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
+          <Route element={<ProtectedRoute />}>
+            <Route
+              element={
+                <AppLayout
+                  pageTitle="TeamFlow workspace"
+                  pageEyebrow="Application"
+                  notificationCount={3}
+                />
+              }
+            >
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/projects" element={<Projects />} />
+              <Route path="/projects/:projectId" element={<ProjectDetails />} />
+              <Route path="/tasks" element={<Tasks />} />
+              <Route path="/team" element={<Team />} />
+              <Route path="/analytics" element={<Analytics />} />
+              <Route path="/settings" element={<Settings />} />
+            </Route>
+          </Route>
+
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   )
 }
 

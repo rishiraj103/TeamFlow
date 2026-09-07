@@ -8,6 +8,7 @@ export interface TopbarProps {
   currentUser: LayoutUser
   mobileNavigationOpen: boolean
   onMobileNavigationToggle: () => void
+  onLogout: () => void
 }
 
 export function Topbar({
@@ -17,6 +18,7 @@ export function Topbar({
   currentUser,
   mobileNavigationOpen,
   onMobileNavigationToggle,
+  onLogout,
 }: TopbarProps) {
   const notificationLabel = notificationCount
     ? `Notifications, ${notificationCount} unread`
@@ -87,6 +89,13 @@ export function Topbar({
               <strong>{currentUser.name}</strong>
               <span>{currentUser.email}</span>
             </span>
+            <button
+              type="button"
+              className="topbar__logout btn btn-sm btn-outline-secondary"
+              onClick={onLogout}
+            >
+              Sign out
+            </button>
           </div>
         </div>
       </div>

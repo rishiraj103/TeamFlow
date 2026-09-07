@@ -74,9 +74,10 @@ export function NavigationIconGlyph({ icon }: NavigationIconProps) {
 
 export interface SidebarProps {
   currentUser: LayoutUser
+  onLogout: () => void
 }
 
-export function Sidebar({ currentUser }: SidebarProps) {
+export function Sidebar({ currentUser, onLogout }: SidebarProps) {
   return (
     <aside className="sidebar" aria-label="Primary sidebar">
       <Link to="/" className="sidebar__brand" aria-label="TeamFlow home">
@@ -113,6 +114,13 @@ export function Sidebar({ currentUser }: SidebarProps) {
           <strong>{currentUser.name}</strong>
           <span>{currentUser.role}</span>
         </span>
+        <button
+          type="button"
+          className="sidebar__logout btn btn-sm btn-outline-secondary"
+          onClick={onLogout}
+        >
+          Sign out
+        </button>
       </div>
     </aside>
   )

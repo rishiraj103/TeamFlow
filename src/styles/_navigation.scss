@@ -93,6 +93,7 @@
 
 .sidebar__user {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.75rem;
   align-items: center;
   padding: 1rem 0.5rem 0;
@@ -102,8 +103,17 @@
 .sidebar__user-copy,
 .topbar__profile-copy {
   display: flex;
+  flex: 1;
   min-width: 0;
   flex-direction: column;
+}
+
+.sidebar__logout {
+  width: 100%;
+}
+
+.topbar__logout {
+  white-space: nowrap;
 }
 
 .sidebar__user-copy strong,

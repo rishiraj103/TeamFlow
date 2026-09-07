@@ -10,9 +10,10 @@ export interface MobileNavigationProps {
   open: boolean
   currentUser: LayoutUser
   onClose: () => void
+  onLogout: () => void
 }
 
-export function MobileNavigation({ open, currentUser, onClose }: MobileNavigationProps) {
+export function MobileNavigation({ open, currentUser, onClose, onLogout }: MobileNavigationProps) {
   const closeButtonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
@@ -107,6 +108,16 @@ export function MobileNavigation({ open, currentUser, onClose }: MobileNavigatio
             <strong>{currentUser.name}</strong>
             <span>{currentUser.role}</span>
           </span>
+          <button
+            type="button"
+            className="sidebar__logout btn btn-sm btn-outline-secondary"
+            onClick={() => {
+              onClose()
+              onLogout()
+            }}
+          >
+            Sign out
+          </button>
         </div>
       </aside>
     </>
