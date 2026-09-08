@@ -11,6 +11,22 @@
   font-weight: 600;
 }
 
+.task-filters {
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  background-color: $surface-muted;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+}
+
+.task-filters .field-group {
+  height: 100%;
+}
+
+.task-filters__reset {
+  min-height: 2.75rem;
+}
+
 .task-card {
   display: flex;
   flex-direction: column;
@@ -135,6 +151,10 @@
 }
 
 @media (max-width: 575.98px) {
+  .task-filters {
+    padding: 1rem;
+  }
+
   .task-card__actions .btn {
     flex: 1 1 auto;
   }
