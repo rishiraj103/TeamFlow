@@ -5,6 +5,7 @@ import { Input } from '../components/common/Input'
 import { Modal } from '../components/common/Modal'
 import { Select, type SelectOption } from '../components/common/Select'
 import { ProjectCard } from '../components/projects/ProjectCard'
+import { ProjectDeleteModal } from '../components/projects/ProjectDeleteModal'
 import { ProjectForm, type ProjectFormValues } from '../components/projects/ProjectForm'
 import { users } from '../data/users'
 import { useProjects } from '../context/useProjects'
@@ -166,32 +167,11 @@ export function Projects() {
         />
       </Modal>
 
-      <Modal
-        open={deleteTarget !== null}
-        title="Delete project?"
+      <ProjectDeleteModal
+        project={deleteTarget}
         onClose={() => setDeleteTarget(null)}
-        size="sm"
-      >
-        {deleteTarget ? (
-          <>
-            <p>
-              Are you sure you want to delete <strong>{deleteTarget.name}</strong>?
-            </p>
-            <p className="text-muted-strong mb-0">
-              This removes the project from the current workspace list. This action cannot be
-              undone.
-            </p>
-            <div className="d-flex flex-wrap justify-content-end gap-2 mt-4">
-              <Button variant="ghost" onClick={() => setDeleteTarget(null)}>
-                Cancel
-              </Button>
-              <Button variant="danger" onClick={handleDeleteConfirmation}>
-                Delete project
-              </Button>
-            </div>
-          </>
-        ) : null}
-      </Modal>
+        onConfirm={handleDeleteConfirmation}
+      />
     </div>
   )
 }

@@ -1,7 +1,9 @@
 import { Badge } from '../common/Badge'
 import { Button } from '../common/Button'
 import { Card } from '../common/Card'
+import { Link } from 'react-router-dom'
 import type { Project } from '../../types'
+import { formatProjectDate } from '../../utils/projectDate'
 
 export interface ProjectCardProps {
   project: Project
@@ -9,24 +11,17 @@ export interface ProjectCardProps {
   onDelete: (project: Project) => void
 }
 
-function formatDueDate(date: string): string {
-  const parsedDate = new Date(`${date}T00:00:00Z`)
-
-  if (Number.isNaN(parsedDate.getTime())) {
-    return date
-  }
-
-  return new Intl.DateTimeFormat('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-    timeZone: 'UTC',
-  }).format(parsedDate)
-}
-
 export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
   return (
-    <Card title={project.name} subtitle={project.description} className="project-card h-100">
+    <Card
+      title={
+        <Link to={`/projects/${project.id}`} className="project-card__title-link">
+          {project.name}
+        </Link>
+      }
+      subtitle={project.description}
+      className="project-card h-100"
+    >
       <div className="project-card__body">
         <div className="d-flex align-items-center justify-content-between gap-3">
           <Badge variant={project.status} />
@@ -49,7 +44,7 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
         <dl className="project-card__details row g-3 mt-1 mb-0">
           <div className="col-6">
             <dt>Due date</dt>
-            <dd>{formatDueDate(project.dueDate)}</dd>
+            <dd>{formatProjectDate(project.dueDate)}</dd>
           </div>
           <div className="col-6">
             <dt>Members</dt>
