@@ -1,0 +1,168 @@
+.analytics-page__title {
+  margin-bottom: 0.375rem;
+  color: $body-color;
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  letter-spacing: -0.04em;
+}
+
+.analytics-page__description {
+  max-width: 42rem;
+  margin-bottom: 0;
+  color: $text-muted;
+}
+
+.analytics-page__distribution-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.analytics-page__overview-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.5fr);
+  gap: 1.5rem;
+}
+
+.analytics-card {
+  min-width: 0;
+}
+
+.analytics-empty-state {
+  padding: 1rem 0;
+  background-color: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.analytics-empty-state .empty-state__title {
+  font-size: 1rem;
+}
+
+.analytics-empty-state .empty-state__description {
+  font-size: 0.8125rem;
+}
+
+.metric-bars,
+.progress-metrics {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.metric-bar {
+  display: grid;
+  gap: 0.625rem;
+}
+
+.metric-bar__heading,
+.progress-metric__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.metric-bar__heading > span {
+  color: $body-color;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.metric-bar__heading strong,
+.progress-metric__heading strong {
+  flex: 0 0 auto;
+  color: $body-color;
+  font-size: 1rem;
+}
+
+.metric-bar__track,
+.progress-metric__track,
+.completion-metric__track {
+  height: 0.625rem;
+  overflow: hidden;
+  background-color: $surface-muted;
+  border-radius: 999px;
+}
+
+.metric-bar__fill,
+.progress-metric__fill,
+.completion-metric__fill {
+  background: linear-gradient(90deg, $primary, #7b5cff);
+  border-radius: inherit;
+}
+
+.progress-metric {
+  display: grid;
+  gap: 0.625rem;
+}
+
+.progress-metric__name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: $body-color;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: none;
+  @include focus-ring;
+
+  &:hover {
+    color: $primary;
+  }
+}
+
+.progress-metric__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  color: $text-muted;
+  font-size: 0.75rem;
+}
+
+.completion-metric {
+  display: grid;
+  align-content: center;
+  gap: 1rem;
+  min-height: 100%;
+}
+
+.completion-metric__value {
+  color: $body-color;
+  font-size: clamp(3rem, 7vw, 5rem);
+  letter-spacing: -0.07em;
+  line-height: 1;
+}
+
+.completion-metric__summary,
+.completion-metric__empty {
+  color: $text-muted;
+  font-size: 0.875rem;
+}
+
+@media (max-width: 1199.98px) {
+  .analytics-page__distribution-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .analytics-page__distribution-grid .analytics-card:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .analytics-page__distribution-grid,
+  .analytics-page__overview-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .analytics-page__distribution-grid .analytics-card:last-child {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .progress-metric__meta {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
