@@ -1,5 +1,8 @@
-import { useCallback, useMemo, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { STORAGE_KEYS } from '../constants/storage'
 import { projects as seedProjects } from '../data/projects'
+import { getItem, setItem } from '../services/storage'
+import { isProjectArray } from '../services/storageValidation'
 import type { Project } from '../types'
 import { ProjectContext, type ProjectContextValue, type ProjectDraft } from './projectContextValue'
 
@@ -24,8 +27,21 @@ export interface ProjectProviderProps {
   children: ReactNode
 }
 
+function readInitialProjects(): Project[] {
+  return getItem<Project[]>(STORAGE_KEYS.projects, isProjectArray) ?? [...seedProjects]
+}
+
 export function ProjectProvider({ children }: ProjectProviderProps) {
-  const [projects, setProjects] = useState<Project[]>(() => [...seedProjects])
+  const [projects, setProjects] = useState<Project[]>(readInitialProjects)
+  const initialProjects = useRef(projects)
+
+  useEffect(() => {
+    if (projects === initialProjects.current) {
+      return
+    }
+
+    setItem(STORAGE_KEYS.projects, projects)
+  }, [projects])
 
   const createProject = useCallback(
     (project: ProjectDraft) => {

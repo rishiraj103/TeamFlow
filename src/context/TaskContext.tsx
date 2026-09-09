@@ -1,5 +1,8 @@
-import { useCallback, useMemo, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { STORAGE_KEYS } from '../constants/storage'
 import { tasks as seedTasks } from '../data/tasks'
+import { getItem, setItem } from '../services/storage'
+import { isTaskArray } from '../services/storageValidation'
 import type { Task, TaskStatus } from '../types'
 import { TaskContext, type TaskContextValue, type TaskDraft } from './taskContextValue'
 
@@ -24,8 +27,21 @@ export interface TaskProviderProps {
   children: ReactNode
 }
 
+function readInitialTasks(): Task[] {
+  return getItem<Task[]>(STORAGE_KEYS.tasks, isTaskArray) ?? [...seedTasks]
+}
+
 export function TaskProvider({ children }: TaskProviderProps) {
-  const [tasks, setTasks] = useState<Task[]>(() => [...seedTasks])
+  const [tasks, setTasks] = useState<Task[]>(readInitialTasks)
+  const initialTasks = useRef(tasks)
+
+  useEffect(() => {
+    if (tasks === initialTasks.current) {
+      return
+    }
+
+    setItem(STORAGE_KEYS.tasks, tasks)
+  }, [tasks])
 
   const createTask = useCallback(
     (task: TaskDraft) => {

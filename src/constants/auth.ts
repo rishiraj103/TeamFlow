@@ -1,6 +1,7 @@
 import type { AuthUser } from '../types/auth'
+import { STORAGE_KEYS } from './storage'
 
-export const AUTH_STORAGE_KEY = 'teamflow.auth.user'
+export const AUTH_STORAGE_KEY = STORAGE_KEYS.auth
 
 export const DEMO_CREDENTIALS = {
   email: 'demo@teamflow.app',
