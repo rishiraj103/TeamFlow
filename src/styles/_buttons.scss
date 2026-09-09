@@ -18,9 +18,9 @@
 }
 
 .btn-teamflow-ghost {
-  color: $body-color;
+  color: var(--tf-body-color);
   background-color: transparent;
-  border-color: $border-color;
+  border-color: var(--tf-border-color);
 
   &:hover,
   &:active {

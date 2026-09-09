@@ -1,17 +1,17 @@
 .text-muted-strong {
-  color: $text-muted !important;
+  color: var(--tf-text-muted) !important;
 }
 
 .text-subtle {
-  color: $text-subtle !important;
+  color: var(--tf-text-subtle) !important;
 }
 
 .bg-surface {
-  background-color: $surface !important;
+  background-color: var(--tf-surface) !important;
 }
 
 .bg-surface-muted {
-  background-color: $surface-muted !important;
+  background-color: var(--tf-surface-muted) !important;
 }
 
 .u-stack {

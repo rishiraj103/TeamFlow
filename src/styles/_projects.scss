@@ -1,14 +1,14 @@
 .projects-page__title {
   margin-bottom: 0.375rem;
-  color: $body-color;
+  color: var(--tf-body-color);
   font-size: clamp(1.75rem, 3vw, 2.25rem);
   letter-spacing: -0.04em;
 }
 
 .projects-page__filters {
   padding: 1.25rem;
-  background-color: $surface-muted;
-  border: 1px solid $border-color;
+  background-color: var(--tf-surface-muted);
+  border: 1px solid var(--tf-border-color);
   border-radius: $border-radius;
 }
 
@@ -17,7 +17,7 @@
 }
 
 .projects-page__result-summary {
-  color: $text-muted;
+  color: var(--tf-text-muted);
   font-size: 0.8125rem;
   font-weight: 600;
 }
@@ -51,7 +51,7 @@
 }
 
 .project-card__progress-label {
-  color: $text-muted;
+  color: var(--tf-text-muted);
   font-size: 0.75rem;
   font-weight: 700;
   white-space: nowrap;
@@ -60,7 +60,7 @@
 .project-card__progress .progress {
   height: 0.5rem;
   overflow: hidden;
-  background-color: $surface-muted;
+  background-color: var(--tf-surface-muted);
   border-radius: 999px;
 }
 
@@ -71,7 +71,7 @@
 
 .project-card__details dt {
   margin-bottom: 0.25rem;
-  color: $text-subtle;
+  color: var(--tf-text-subtle);
   font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -80,7 +80,7 @@
 
 .project-card__details dd {
   margin-bottom: 0;
-  color: $body-color;
+  color: var(--tf-body-color);
   font-size: 0.875rem;
   font-weight: 700;
 }
@@ -97,7 +97,7 @@
 }
 
 .project-form__members option:checked {
-  color: $body-color;
+  color: var(--tf-body-color);
   background-color: rgba($primary, 0.14);
 }
 

@@ -1,5 +1,6 @@
 .auth-page {
-  background: radial-gradient(circle at 10% 10%, rgba($primary, 0.1), transparent 32rem), $body-bg;
+  background:
+    radial-gradient(circle at 10% 10%, rgba($primary, 0.1), transparent 32rem), var(--tf-body-bg);
 }
 
 .auth-page__branding {
@@ -8,7 +9,7 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 1.25rem;
-  color: $body-color;
+  color: var(--tf-body-color);
   font-size: 1.25rem;
   font-weight: 800;
   letter-spacing: -0.03em;
@@ -18,10 +19,10 @@
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  color: $body-color;
+  color: var(--tf-body-color);
 }
 
 .auth-route-loading {
   min-height: 100vh;
-  background-color: $body-bg;
+  background-color: var(--tf-body-bg);
 }

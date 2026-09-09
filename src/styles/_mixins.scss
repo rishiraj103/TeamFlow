@@ -8,8 +8,8 @@
 }
 
 @mixin surface($shadow: $box-shadow-sm) {
-  background-color: $surface;
-  border: 1px solid $border-color;
+  background-color: var(--tf-surface);
+  border: 1px solid var(--tf-border-color);
   border-radius: $border-radius;
   box-shadow: $shadow;
 }

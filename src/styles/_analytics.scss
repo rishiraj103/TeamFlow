@@ -1,6 +1,6 @@
 .analytics-page__title {
   margin-bottom: 0.375rem;
-  color: $body-color;
+  color: var(--tf-body-color);
   font-size: clamp(1.75rem, 3vw, 2.25rem);
   letter-spacing: -0.04em;
 }
@@ -8,7 +8,7 @@
 .analytics-page__description {
   max-width: 42rem;
   margin-bottom: 0;
-  color: $text-muted;
+  color: var(--tf-text-muted);
 }
 
 .analytics-page__distribution-grid {
@@ -62,7 +62,7 @@
 }
 
 .metric-bar__heading > span {
-  color: $body-color;
+  color: var(--tf-body-color);
   font-size: 0.875rem;
   font-weight: 700;
 }
@@ -70,7 +70,7 @@
 .metric-bar__heading strong,
 .progress-metric__heading strong {
   flex: 0 0 auto;
-  color: $body-color;
+  color: var(--tf-body-color);
   font-size: 1rem;
 }
 
@@ -79,7 +79,7 @@
 .completion-metric__track {
   height: 0.625rem;
   overflow: hidden;
-  background-color: $surface-muted;
+  background-color: var(--tf-surface-muted);
   border-radius: 999px;
 }
 
@@ -98,7 +98,7 @@
 .progress-metric__name {
   min-width: 0;
   overflow-wrap: anywhere;
-  color: $body-color;
+  color: var(--tf-body-color);
   font-size: 0.875rem;
   font-weight: 700;
   text-decoration: none;
@@ -114,7 +114,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
-  color: $text-muted;
+  color: var(--tf-text-muted);
   font-size: 0.75rem;
 }
 
@@ -126,7 +126,7 @@
 }
 
 .completion-metric__value {
-  color: $body-color;
+  color: var(--tf-body-color);
   font-size: clamp(3rem, 7vw, 5rem);
   letter-spacing: -0.07em;
   line-height: 1;
@@ -134,7 +134,7 @@
 
 .completion-metric__summary,
 .completion-metric__empty {
-  color: $text-muted;
+  color: var(--tf-text-muted);
   font-size: 0.875rem;
 }
 

@@ -9,10 +9,9 @@ import {
 } from './notificationPreferencesContextValue'
 
 const DEFAULT_NOTIFICATION_PREFERENCES: NotificationPreferences = {
-  email: true,
-  inApp: true,
-  taskAssignments: true,
+  taskDeadlines: true,
   projectUpdates: true,
+  activityUpdates: true,
 }
 
 export interface NotificationPreferencesProviderProps {

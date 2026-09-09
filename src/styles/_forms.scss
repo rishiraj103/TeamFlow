@@ -1,6 +1,6 @@
 .form-label {
   margin-bottom: 0.5rem;
-  color: $body-color;
+  color: var(--tf-body-color);
   font-size: 0.875rem;
   font-weight: 600;
 }
@@ -8,9 +8,9 @@
 .form-control,
 .form-select {
   min-height: 2.75rem;
-  color: $body-color;
-  background-color: $surface;
-  border-color: $border-color;
+  color: var(--tf-body-color);
+  background-color: var(--tf-surface);
+  border-color: var(--tf-border-color);
 
   &:focus {
     border-color: rgba($primary, 0.6);
@@ -18,11 +18,11 @@
 }
 
 .form-control::placeholder {
-  color: $text-subtle;
+  color: var(--tf-text-subtle);
 }
 
 .form-text {
-  color: $text-muted;
+  color: var(--tf-text-muted);
   font-size: 0.8125rem;
 }
 
@@ -50,7 +50,7 @@
   flex: 0 0 1rem;
   width: 1rem;
   height: 1rem;
-  color: $surface;
+  color: var(--tf-surface);
   background-color: $danger;
   border-radius: 50%;
   place-items: center;

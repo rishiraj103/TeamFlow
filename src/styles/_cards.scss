@@ -14,12 +14,12 @@
 }
 
 .tf-card__header {
-  border-bottom: 1px solid $border-color;
+  border-bottom: 1px solid var(--tf-border-color);
 }
 
 .tf-card__footer {
-  background-color: $surface-muted;
-  border-top: 1px solid $border-color;
+  background-color: var(--tf-surface-muted);
+  border-top: 1px solid var(--tf-border-color);
 }
 
 .tf-card__title {
@@ -30,8 +30,8 @@
 .demo-panel {
   height: 100%;
   padding: 1.5rem;
-  background-color: $surface-muted;
-  border: 1px solid $border-color;
+  background-color: var(--tf-surface-muted);
+  border: 1px solid var(--tf-border-color);
   border-radius: $border-radius-sm;
 }
 
@@ -59,7 +59,7 @@
 .empty-state__description {
   max-width: 30rem;
   margin: 0 auto;
-  color: $text-muted;
+  color: var(--tf-text-muted);
 }
 
 .empty-state__action {

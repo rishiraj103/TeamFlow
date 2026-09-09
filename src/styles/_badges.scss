@@ -22,8 +22,8 @@
 }
 
 .status-badge--archived {
-  color: $text-muted;
-  background-color: rgba($text-muted, 0.13);
+  color: var(--tf-text-muted);
+  background-color: var(--tf-muted-soft-bg);
 }
 
 .status-badge--todo {

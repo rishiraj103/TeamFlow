@@ -9,7 +9,7 @@
   height: 100vh;
   min-height: 0;
   overflow: hidden;
-  background-color: $body-bg;
+  background-color: var(--tf-body-bg);
 }
 
 .app-layout__main {
@@ -39,12 +39,12 @@
 
 .standalone-page {
   min-height: 100vh;
-  background-color: $body-bg;
+  background-color: var(--tf-body-bg);
 }
 
 .app-shell {
   min-height: 100vh;
-  background-color: $body-bg;
+  background-color: var(--tf-body-bg);
 }
 
 .app-shell__content {
@@ -63,7 +63,7 @@
 
 .app-shell__title {
   margin-bottom: 0.75rem;
-  color: $body-color;
+  color: var(--tf-body-color);
   font-size: clamp(2rem, 5vw, 3.5rem);
   letter-spacing: -0.04em;
 }
@@ -71,12 +71,12 @@
 .app-shell__description {
   max-width: 38rem;
   margin-bottom: 0;
-  color: $text-muted;
+  color: var(--tf-text-muted);
 }
 
 .section-kicker {
   margin-bottom: 0.5rem;
-  color: $text-subtle;
+  color: var(--tf-text-subtle);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.08em;

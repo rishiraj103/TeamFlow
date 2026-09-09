@@ -65,10 +65,9 @@ export type ThemeMode = 'light' | 'dark'
 export type ThemePreference = ThemeMode | 'system'
 
 export interface NotificationPreferences {
-  email: boolean
-  inApp: boolean
-  taskAssignments: boolean
+  taskDeadlines: boolean
   projectUpdates: boolean
+  activityUpdates: boolean
 }
 
 export type SortDirection = 'asc' | 'desc'

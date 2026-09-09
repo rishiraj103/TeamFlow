@@ -1,0 +1,223 @@
+:root,
+[data-theme='light'] {
+  color-scheme: light;
+  --tf-body-bg: #f4f7fb;
+  --tf-body-color: #172033;
+  --tf-surface: #ffffff;
+  --tf-surface-muted: #eef2f8;
+  --tf-text-muted: #63708a;
+  --tf-text-subtle: #8b96aa;
+  --tf-border-color: #dce3ee;
+  --tf-muted-soft-bg: rgba(99, 112, 138, 0.13);
+  --bs-body-bg: var(--tf-body-bg);
+  --bs-body-color: var(--tf-body-color);
+  --bs-body-color-rgb: 23, 32, 51;
+  --bs-border-color: var(--tf-border-color);
+  --bs-emphasis-color: var(--tf-body-color);
+  --bs-secondary-color: var(--tf-text-muted);
+  --bs-tertiary-bg: var(--tf-surface-muted);
+  --bs-card-bg: var(--tf-surface);
+  --bs-card-border-color: var(--tf-border-color);
+  --bs-card-cap-bg: var(--tf-surface);
+  --bs-card-color: var(--tf-body-color);
+  --bs-modal-bg: var(--tf-surface);
+  --bs-modal-color: var(--tf-body-color);
+  --bs-modal-border-color: var(--tf-border-color);
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+  --tf-body-bg: #0f172a;
+  --tf-body-color: #e8edf7;
+  --tf-surface: #172235;
+  --tf-surface-muted: #202d43;
+  --tf-text-muted: #aab7cc;
+  --tf-text-subtle: #8796ae;
+  --tf-border-color: #34445f;
+  --tf-muted-soft-bg: rgba(170, 183, 204, 0.16);
+  --bs-body-bg: var(--tf-body-bg);
+  --bs-body-color: var(--tf-body-color);
+  --bs-body-color-rgb: 232, 237, 247;
+  --bs-border-color: var(--tf-border-color);
+  --bs-emphasis-color: var(--tf-body-color);
+  --bs-secondary-color: var(--tf-text-muted);
+  --bs-tertiary-bg: var(--tf-surface-muted);
+  --bs-card-bg: var(--tf-surface);
+  --bs-card-border-color: var(--tf-border-color);
+  --bs-card-cap-bg: var(--tf-surface);
+  --bs-card-color: var(--tf-body-color);
+  --bs-modal-bg: var(--tf-surface);
+  --bs-modal-color: var(--tf-body-color);
+  --bs-modal-border-color: var(--tf-border-color);
+}
+
+html,
+body {
+  background-color: var(--tf-body-bg);
+  color: var(--tf-body-color);
+}
+
+body {
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+.app-layout,
+.standalone-page,
+.app-shell,
+.auth-page,
+.auth-route-loading {
+  background-color: var(--tf-body-bg);
+  color: var(--tf-body-color);
+}
+
+.tf-card,
+.empty-state,
+.mobile-navigation,
+.modal-content {
+  color: var(--tf-body-color);
+  background-color: var(--tf-surface);
+  border-color: var(--tf-border-color);
+}
+
+.tf-card__header,
+.tf-card__body,
+.tf-card__footer,
+.modal-header,
+.modal-body,
+.modal-footer {
+  color: var(--tf-body-color);
+  border-color: var(--tf-border-color);
+}
+
+.tf-card__footer,
+.demo-panel,
+.bg-surface-muted,
+.projects-page__filters,
+.task-filters,
+.team-page__filters,
+.project-details-page__summary {
+  background-color: var(--tf-surface-muted) !important;
+  border-color: var(--tf-border-color);
+}
+
+.sidebar,
+.topbar {
+  color: var(--tf-body-color);
+  background-color: color-mix(in srgb, var(--tf-surface) 90%, transparent);
+  border-color: var(--tf-border-color);
+}
+
+.sidebar {
+  background-color: var(--tf-surface);
+}
+
+.form-control,
+.form-select,
+.form-check-input {
+  color: var(--tf-body-color);
+  background-color: var(--tf-surface);
+  border-color: var(--tf-border-color);
+}
+
+.form-control::placeholder {
+  color: var(--tf-text-subtle);
+}
+
+.form-text,
+.text-muted-strong {
+  color: var(--tf-text-muted) !important;
+}
+
+.text-subtle {
+  color: var(--tf-text-subtle) !important;
+}
+
+.sidebar__brand,
+.sidebar__user-copy strong,
+.topbar__profile-copy strong,
+.topbar__title,
+.settings-page__title,
+.settings-fieldset__legend,
+.settings-theme-option,
+.settings-preference__label {
+  color: var(--tf-body-color);
+}
+
+.sidebar__nav-link,
+.topbar__notification,
+.topbar__menu-toggle,
+.mobile-navigation__close {
+  color: var(--tf-text-muted);
+}
+
+.sidebar__user-copy span,
+.topbar__profile-copy span,
+.topbar__eyebrow {
+  color: var(--tf-text-subtle);
+}
+
+.sidebar__brand-mark,
+.topbar__notification-count,
+.field-error > span:first-child {
+  color: var(--tf-surface);
+}
+
+.sidebar__nav-link:hover,
+.sidebar__nav-link.is-active,
+.sidebar__nav-link[aria-current='page'],
+.topbar__notification:hover,
+.topbar__menu-toggle:hover,
+.mobile-navigation__close:hover {
+  background-color: rgba(83, 107, 255, 0.14);
+}
+
+.btn-teamflow-ghost {
+  color: var(--tf-body-color);
+  border-color: var(--tf-border-color);
+}
+
+.btn-outline-secondary,
+[data-theme='dark'] .btn-outline-secondary {
+  --bs-btn-color: var(--tf-text-muted);
+  --bs-btn-border-color: var(--tf-border-color);
+  --bs-btn-hover-color: var(--tf-body-color);
+  --bs-btn-hover-bg: var(--tf-surface-muted);
+  --bs-btn-hover-border-color: var(--tf-border-color);
+  --bs-btn-active-color: var(--tf-body-color);
+  --bs-btn-active-bg: var(--tf-surface-muted);
+  --bs-btn-active-border-color: var(--tf-border-color);
+}
+
+.status-badge--archived {
+  color: var(--tf-text-muted);
+  background-color: var(--tf-muted-soft-bg);
+}
+
+.project-details-page__summary .progress,
+.progress-metric__track,
+.metric-bar__track,
+.completion-metric__track {
+  background-color: var(--tf-surface-muted);
+}
+
+.modal-header,
+.modal-footer,
+.tf-card__header,
+.tf-card__footer {
+  border-color: var(--tf-border-color);
+}
+
+[data-theme='dark'] .btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+[data-theme='dark'] .field-error {
+  color: #ffadb5;
+}
+
+[data-theme='dark'] .form-control,
+[data-theme='dark'] .form-select {
+  color-scheme: dark;
+}

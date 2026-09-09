@@ -1,12 +1,12 @@
 .tasks-page__title {
   margin-bottom: 0.375rem;
-  color: $body-color;
+  color: var(--tf-body-color);
   font-size: clamp(1.75rem, 3vw, 2.25rem);
   letter-spacing: -0.04em;
 }
 
 .tasks-page__result-summary {
-  color: $text-muted;
+  color: var(--tf-text-muted);
   font-size: 0.8125rem;
   font-weight: 600;
 }
@@ -14,8 +14,8 @@
 .task-filters {
   padding: 1.25rem;
   margin-bottom: 1.5rem;
-  background-color: $surface-muted;
-  border: 1px solid $border-color;
+  background-color: var(--tf-surface-muted);
+  border: 1px solid var(--tf-border-color);
   border-radius: $border-radius;
 }
 
@@ -82,7 +82,7 @@
 .task-card__assignee-label {
   display: block;
   margin-bottom: 0.25rem;
-  color: $text-subtle;
+  color: var(--tf-text-subtle);
   font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -91,7 +91,7 @@
 
 .task-card__details dd {
   margin-bottom: 0;
-  color: $body-color;
+  color: var(--tf-body-color);
   font-size: 0.875rem;
   font-weight: 700;
   overflow-wrap: anywhere;
@@ -103,8 +103,8 @@
   gap: 0.75rem;
   min-width: 0;
   padding: 0.875rem 0;
-  border-top: 1px solid $border-color;
-  border-bottom: 1px solid $border-color;
+  border-top: 1px solid var(--tf-border-color);
+  border-bottom: 1px solid var(--tf-border-color);
 }
 
 .task-card__assignee img,
@@ -127,7 +127,7 @@
 }
 
 .task-card__assignee strong {
-  color: $body-color;
+  color: var(--tf-body-color);
   font-size: 0.875rem;
   overflow-wrap: anywhere;
 }
@@ -147,7 +147,7 @@
 
 .task-form__actions {
   padding-top: 1rem;
-  border-top: 1px solid $border-color;
+  border-top: 1px solid var(--tf-border-color);
 }
 
 @media (max-width: 575.98px) {

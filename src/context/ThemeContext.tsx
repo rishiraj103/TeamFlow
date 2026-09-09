@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { useCallback, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { STORAGE_KEYS } from '../constants/storage'
 import { getItem, setItem } from '../services/storage'
 import { isThemeMode } from '../services/storageValidation'
@@ -17,7 +17,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   const [currentTheme, setCurrentTheme] = useState<ThemeMode>(readInitialTheme)
   const initialTheme = useRef(currentTheme)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     document.documentElement.dataset.theme = currentTheme
 
     if (currentTheme !== initialTheme.current) {

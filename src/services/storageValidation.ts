@@ -67,9 +67,8 @@ export function isNotificationPreferences(value: unknown): value is Notification
   }
 
   return (
-    typeof value.email === 'boolean' &&
-    typeof value.inApp === 'boolean' &&
-    typeof value.taskAssignments === 'boolean' &&
-    typeof value.projectUpdates === 'boolean'
+    typeof value.taskDeadlines === 'boolean' &&
+    typeof value.projectUpdates === 'boolean' &&
+    typeof value.activityUpdates === 'boolean'
   )
 }
