@@ -1,0 +1,226 @@
+.dashboard-page__title {
+  margin-bottom: 0.375rem;
+  color: $body-color;
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  letter-spacing: -0.04em;
+}
+
+.dashboard-page__description {
+  max-width: 42rem;
+  margin-bottom: 0;
+  color: $text-muted;
+}
+
+.dashboard-page__stats {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  min-width: 0;
+}
+
+.stat-card .tf-card__header {
+  min-height: 7rem;
+}
+
+.stat-card .tf-card__title {
+  font-size: 0.9375rem;
+}
+
+.stat-card__value {
+  display: block;
+  color: $body-color;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.dashboard-widget {
+  min-width: 0;
+}
+
+.project-progress,
+.task-distribution,
+.activity-list,
+.deadline-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.project-progress__item {
+  display: grid;
+  gap: 0.625rem;
+  min-width: 0;
+}
+
+.project-progress__heading,
+.task-distribution__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.project-progress__name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: $body-color;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: none;
+  @include focus-ring;
+
+  &:hover {
+    color: $primary;
+  }
+}
+
+.project-progress__percentage {
+  flex: 0 0 auto;
+  color: $text-muted;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.project-progress__bar,
+.task-distribution__bar {
+  height: 0.5rem;
+  overflow: hidden;
+  background-color: $surface-muted;
+  border-radius: 999px;
+}
+
+.project-progress__bar .progress-bar,
+.task-distribution__bar .progress-bar {
+  background: linear-gradient(90deg, $primary, #7b5cff);
+  border-radius: inherit;
+}
+
+.project-progress__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  color: $text-muted;
+  font-size: 0.75rem;
+}
+
+.task-distribution__item {
+  display: grid;
+  gap: 0.625rem;
+}
+
+.task-distribution__heading strong {
+  color: $body-color;
+  font-size: 1.125rem;
+}
+
+.activity-list__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.activity-list__item img,
+.activity-list__avatar-placeholder {
+  display: grid;
+  flex: 0 0 2.5rem;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  color: $primary;
+  background-color: rgba($primary, 0.1);
+  border-radius: 50%;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.activity-list__copy {
+  min-width: 0;
+}
+
+.activity-list__copy p {
+  margin-bottom: 0.25rem;
+  color: $text-muted;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.activity-list__copy strong {
+  color: $body-color;
+}
+
+.activity-list__copy time {
+  color: $text-subtle;
+  font-size: 0.75rem;
+}
+
+.deadline-list__item {
+  display: grid;
+  gap: 0.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid $border-color;
+}
+
+.deadline-list__item:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.deadline-list__copy {
+  min-width: 0;
+}
+
+.deadline-list__copy h3 {
+  margin-bottom: 0.25rem;
+  color: $body-color;
+  font-size: 0.875rem;
+  overflow-wrap: anywhere;
+}
+
+.deadline-list__copy p {
+  margin-bottom: 0;
+  color: $text-muted;
+  font-size: 0.8125rem;
+  overflow-wrap: anywhere;
+}
+
+.deadline-list__meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  color: $text-muted;
+  font-size: 0.75rem;
+}
+
+.deadline-list__meta span {
+  flex: 1 1 100%;
+}
+
+.deadline-list__meta strong {
+  color: $body-color;
+}
+
+@media (max-width: 1199.98px) {
+  .dashboard-page__stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767.98px) {
+  .dashboard-page__stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 575.98px) {
+  .dashboard-page__stats {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

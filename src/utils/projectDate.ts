@@ -1,7 +1,17 @@
-export function formatProjectDate(date: string): string {
+export function parseProjectDate(date: string): Date | null {
   const parsedDate = new Date(`${date}T00:00:00Z`)
 
-  if (Number.isNaN(parsedDate.getTime())) {
+  return Number.isNaN(parsedDate.getTime()) ? null : parsedDate
+}
+
+export function getProjectDateTimestamp(date: string): number {
+  return parseProjectDate(date)?.getTime() ?? Number.POSITIVE_INFINITY
+}
+
+export function formatProjectDate(date: string): string {
+  const parsedDate = parseProjectDate(date)
+
+  if (!parsedDate) {
     return date
   }
 
