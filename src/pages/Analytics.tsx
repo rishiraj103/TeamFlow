@@ -55,7 +55,7 @@ export function Analytics() {
     <div className="analytics-page">
       <header className="analytics-page__header mb-4">
         <p className="section-kicker">Workspace insights</p>
-        <h2 className="analytics-page__title">Analytics</h2>
+        <h1 className="analytics-page__title">Analytics</h1>
         <p className="analytics-page__description">
           Understand task distribution, delivery progress, and completion across TeamFlow.
         </p>
@@ -160,7 +160,7 @@ export function Analytics() {
             <div
               className="progress completion-metric__track"
               role="progressbar"
-              aria-label="Task completion rate"
+              aria-label={`Task completion rate: ${formatAnalyticsPercentage(analytics.completionRate)}`}
               aria-valuenow={analytics.completionRate}
               aria-valuemin={0}
               aria-valuemax={100}

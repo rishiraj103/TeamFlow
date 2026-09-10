@@ -22,7 +22,7 @@ export function MetricBar({ label, count, maxCount, badgeVariant }: MetricBarPro
       <div
         className="progress metric-bar__track"
         role="progressbar"
-        aria-label={`${label} count`}
+        aria-label={`${label} count: ${safeCount}`}
         aria-valuenow={safeCount}
         aria-valuemin={0}
         aria-valuemax={safeMaxCount}

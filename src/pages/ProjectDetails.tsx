@@ -39,6 +39,7 @@ function getTabId(tab: ProjectDetailsTab) {
 function ProjectNotFound() {
   return (
     <div className="project-details-page project-details-page__not-found">
+      <h1 className="visually-hidden">Project Not Found</h1>
       <Card title="Project Not Found" subtitle="We could not find a project for this URL.">
         <p className="text-muted-strong">
           The project may have been removed, or the project ID may be incorrect.
@@ -317,7 +318,7 @@ export function ProjectDetails() {
       <header className="project-details-page__header">
         <div className="project-details-page__heading">
           <p className="section-kicker">Project details</p>
-          <h2>{currentProject.name}</h2>
+          <h1>{currentProject.name}</h1>
           <p>{currentProject.description}</p>
         </div>
         <div className="project-details-page__actions d-flex flex-wrap gap-2">
@@ -330,7 +331,7 @@ export function ProjectDetails() {
         </div>
       </header>
 
-      <section className="project-details-page__summary" aria-label="Project summary">
+      <dl className="project-details-page__summary" aria-label="Project summary">
         <div>
           <dt>Status</dt>
           <dd>
@@ -344,7 +345,7 @@ export function ProjectDetails() {
             <div
               className="progress mt-2"
               role="progressbar"
-              aria-label={`${currentProject.name} progress`}
+              aria-label={`${currentProject.name} progress: ${currentProject.progress}%`}
               aria-valuenow={currentProject.progress}
               aria-valuemin={0}
               aria-valuemax={100}
@@ -361,7 +362,7 @@ export function ProjectDetails() {
           <dt>Members</dt>
           <dd>{currentProject.memberIds.length}</dd>
         </div>
-      </section>
+      </dl>
 
       <div className="project-details-page__tabs" role="tablist" aria-label="Project sections">
         {tabs.map((tab, tabIndex) => (
@@ -374,7 +375,7 @@ export function ProjectDetails() {
             type="button"
             role="tab"
             aria-selected={activeTab === tab.id}
-            aria-controls={getTabPanelId(tab.id)}
+            aria-controls={activeTab === tab.id ? getTabPanelId(tab.id) : undefined}
             tabIndex={activeTab === tab.id ? 0 : -1}
             className={`project-details-page__tab${activeTab === tab.id ? ' is-active' : ''}`}
             onClick={() => setActiveTab(tab.id)}

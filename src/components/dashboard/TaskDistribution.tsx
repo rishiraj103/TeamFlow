@@ -33,7 +33,7 @@ export function TaskDistribution({ tasks }: TaskDistributionProps) {
               <div
                 className="progress task-distribution__bar"
                 role="progressbar"
-                aria-label={`${taskStatusLabels[status]} task count`}
+                aria-label={`${taskStatusLabels[status]} task count: ${count}`}
                 aria-valuenow={count}
                 aria-valuemin={0}
                 aria-valuemax={highestCount}

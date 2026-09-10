@@ -97,7 +97,7 @@ export function Settings() {
     <div className="settings-page">
       <header className="settings-page__header mb-4">
         <p className="section-kicker">Workspace preferences</p>
-        <h2 className="settings-page__title">Settings</h2>
+        <h1 className="settings-page__title">Settings</h1>
         <p className="settings-page__description">
           Customize how TeamFlow looks and which workspace updates you receive.
         </p>

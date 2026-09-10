@@ -103,7 +103,7 @@ export function Projects() {
       <header className="projects-page__header d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
         <div>
           <p className="section-kicker">Workspace</p>
-          <h2 className="projects-page__title">Projects</h2>
+          <h1 className="projects-page__title">Projects</h1>
           <p className="text-muted-strong mb-0">
             {projectCountLabel} across the TeamFlow workspace.
           </p>
@@ -169,7 +169,7 @@ export function Projects() {
         />
       ) : (
         <section aria-label="Project list">
-          <div className="projects-page__result-summary mb-3">
+          <div className="projects-page__result-summary mb-3" aria-live="polite">
             Showing {visibleProjects.length} of {projects.length} projects
           </div>
           <div className="row g-4">

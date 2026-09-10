@@ -3,6 +3,7 @@ import { Link, NavLink } from 'react-router-dom'
 import type { LayoutUser } from './AppLayout'
 import { NavigationIconGlyph } from './Sidebar'
 import { navigationItems } from './navigation'
+import { getFocusableElements } from '../../utils/focus'
 
 export const mobileNavigationId = 'teamflow-mobile-navigation'
 
@@ -15,6 +16,7 @@ export interface MobileNavigationProps {
 
 export function MobileNavigation({ open, currentUser, onClose, onLogout }: MobileNavigationProps) {
   const closeButtonRef = useRef<HTMLButtonElement>(null)
+  const navigationRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
     if (!open) {
@@ -31,6 +33,30 @@ export function MobileNavigation({ open, currentUser, onClose, onLogout }: Mobil
       if (event.key === 'Escape') {
         event.preventDefault()
         onClose()
+        return
+      }
+
+      if (event.key !== 'Tab' || !navigationRef.current) {
+        return
+      }
+
+      const focusableElements = getFocusableElements(navigationRef.current)
+
+      if (focusableElements.length === 0) {
+        event.preventDefault()
+        navigationRef.current.focus()
+        return
+      }
+
+      const firstElement = focusableElements[0]
+      const lastElement = focusableElements[focusableElements.length - 1]
+
+      if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault()
+        lastElement.focus()
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault()
+        firstElement.focus()
       }
     }
 
@@ -56,11 +82,13 @@ export function MobileNavigation({ open, currentUser, onClose, onLogout }: Mobil
         onClick={onClose}
       />
       <aside
+        ref={navigationRef}
         id={mobileNavigationId}
         className="mobile-navigation"
         role="dialog"
         aria-modal="true"
         aria-label="Mobile navigation"
+        tabIndex={-1}
       >
         <div className="mobile-navigation__header">
           <Link to="/" className="sidebar__brand" aria-label="TeamFlow home">

@@ -26,7 +26,7 @@ export function TaskCard({
   return (
     <Card title={task.title} subtitle={task.description} className="task-card h-100">
       <div className="task-card__body">
-        <div className="task-card__badges" aria-label="Task summary">
+        <div className="task-card__badges">
           <Badge variant={task.status} />
           <Badge variant={task.priority} />
         </div>

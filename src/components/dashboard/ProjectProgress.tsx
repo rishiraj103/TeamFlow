@@ -29,7 +29,7 @@ export function ProjectProgress({ projects }: ProjectProgressProps) {
               <div
                 className="progress project-progress__bar"
                 role="progressbar"
-                aria-label={`${project.name} progress`}
+                aria-label={`${project.name} progress: ${project.progress}%`}
                 aria-valuenow={project.progress}
                 aria-valuemin={0}
                 aria-valuemax={100}

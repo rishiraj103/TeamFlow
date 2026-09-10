@@ -62,7 +62,7 @@ export function Team() {
     <div className="team-page">
       <header className="team-page__header mb-4">
         <p className="section-kicker">Workspace</p>
-        <h2 className="team-page__title">Team</h2>
+        <h1 className="team-page__title">Team</h1>
         <p className="team-page__description">
           See who is working across TeamFlow and how responsibilities are distributed.
         </p>

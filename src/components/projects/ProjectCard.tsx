@@ -32,7 +32,7 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
           <div
             className="progress"
             role="progressbar"
-            aria-label={`${project.name} progress`}
+            aria-label={`${project.name} progress: ${project.progress}%`}
             aria-valuenow={project.progress}
             aria-valuemin={0}
             aria-valuemax={100}

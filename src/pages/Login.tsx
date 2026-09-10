@@ -64,7 +64,8 @@ export function Login() {
       <div className="container py-5">
         <div className="row justify-content-center">
           <div className="col-12 col-sm-9 col-md-7 col-lg-5">
-            <div className="auth-page__branding" aria-label="TeamFlow">
+            <h1 className="visually-hidden">Sign in to TeamFlow</h1>
+            <div className="auth-page__branding">
               <span className="sidebar__brand-mark" aria-hidden="true">
                 T
               </span>

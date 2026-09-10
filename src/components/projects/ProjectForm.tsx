@@ -197,7 +197,6 @@ export function ProjectForm({
             multiple
             size={Math.min(Math.max(members.length, 4), 6)}
             required
-            aria-required="true"
             aria-invalid={errors.memberIds ? true : undefined}
             aria-describedby={membersDescribedBy}
           >

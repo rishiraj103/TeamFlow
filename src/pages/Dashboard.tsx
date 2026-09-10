@@ -54,7 +54,7 @@ export function Dashboard() {
     <div className="dashboard-page">
       <header className="dashboard-page__header mb-4">
         <p className="section-kicker">Workspace overview</p>
-        <h2 className="dashboard-page__title">Dashboard</h2>
+        <h1 className="dashboard-page__title">Dashboard</h1>
         <p className="dashboard-page__description">
           A live view of projects, tasks, and the latest activity across TeamFlow.
         </p>

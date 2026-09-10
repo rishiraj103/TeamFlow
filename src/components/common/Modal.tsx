@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef, type ReactNode } from 'react'
+import { getFocusableElements } from '../../utils/focus'
 
 export type ModalSize = 'sm' | 'md' | 'lg' | 'xl'
 
@@ -11,12 +12,6 @@ export interface ModalProps {
   size?: ModalSize
   closeLabel?: string
 }
-
-const focusableSelector =
-  'a[href], area[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
-
-const getFocusableElements = (container: HTMLElement) =>
-  Array.from(container.querySelectorAll<HTMLElement>(focusableSelector))
 
 export function Modal({
   open,

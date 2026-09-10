@@ -90,7 +90,7 @@ export function Tasks() {
       <header className="tasks-page__header d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
         <div>
           <p className="section-kicker">Workspace</p>
-          <h2 className="tasks-page__title">Tasks</h2>
+          <h1 className="tasks-page__title">Tasks</h1>
           <p className="text-muted-strong mb-0">{taskCountLabel} across the TeamFlow workspace.</p>
         </div>
         <Button type="button" onClick={() => setFormMode({ type: 'create' })}>
@@ -119,7 +119,7 @@ export function Tasks() {
         onReset={resetFilters}
       />
 
-      <div className="tasks-page__result-summary mb-3">
+      <div className="tasks-page__result-summary mb-3" aria-live="polite">
         Showing {visibleTasks.length} of {tasks.length} tasks
       </div>
 

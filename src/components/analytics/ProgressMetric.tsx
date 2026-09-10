@@ -23,7 +23,7 @@ export function ProgressMetric({ project }: ProgressMetricProps) {
       <div
         className="progress progress-metric__track"
         role="progressbar"
-        aria-label={`${project.name} progress`}
+        aria-label={`${project.name} progress: ${progress}%`}
         aria-valuenow={progress}
         aria-valuemin={0}
         aria-valuemax={100}

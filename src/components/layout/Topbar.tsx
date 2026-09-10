@@ -51,7 +51,7 @@ export function Topbar({
 
         <div className="topbar__context">
           <p className="topbar__eyebrow">{eyebrow}</p>
-          <h1 className="topbar__title">{title}</h1>
+          <p className="topbar__title">{title}</p>
         </div>
 
         <div className="topbar__actions">
