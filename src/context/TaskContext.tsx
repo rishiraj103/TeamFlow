@@ -4,6 +4,8 @@ import { tasks as seedTasks } from '../data/tasks'
 import { getItem, setItem } from '../services/storage'
 import { isTaskArray } from '../services/storageValidation'
 import type { Task, TaskStatus } from '../types'
+import { taskStatusLabels } from '../utils/taskLabels'
+import { useActivities } from './useActivities'
 import { TaskContext, type TaskContextValue, type TaskDraft } from './taskContextValue'
 
 function createTaskId(existingTasks: Task[]): string {
@@ -32,6 +34,7 @@ function readInitialTasks(): Task[] {
 }
 
 export function TaskProvider({ children }: TaskProviderProps) {
+  const { recordActivity } = useActivities()
   const [tasks, setTasks] = useState<Task[]>(readInitialTasks)
   const initialTasks = useRef(tasks)
 
@@ -51,28 +54,100 @@ export function TaskProvider({ children }: TaskProviderProps) {
       }
 
       setTasks((currentTasks) => [newTask, ...currentTasks])
+      recordActivity({
+        type: 'task-created',
+        description: `created the ${newTask.title} task`,
+        projectId: newTask.projectId,
+        taskId: newTask.id,
+      })
       return newTask
     },
-    [tasks],
+    [recordActivity, tasks],
   )
 
-  const updateTask = useCallback((taskId: string, updates: Partial<Omit<Task, 'id'>>) => {
-    setTasks((currentTasks) =>
-      currentTasks.map((task) =>
-        task.id === taskId ? { ...task, ...updates, id: task.id } : task,
-      ),
-    )
-  }, [])
+  const updateTask = useCallback(
+    (taskId: string, updates: Partial<Omit<Task, 'id'>>) => {
+      const task = tasks.find((candidate) => candidate.id === taskId)
 
-  const deleteTask = useCallback((taskId: string) => {
-    setTasks((currentTasks) => currentTasks.filter((task) => task.id !== taskId))
-  }, [])
+      if (!task) {
+        return
+      }
 
-  const updateTaskStatus = useCallback((taskId: string, status: TaskStatus) => {
-    setTasks((currentTasks) =>
-      currentTasks.map((task) => (task.id === taskId ? { ...task, status } : task)),
-    )
-  }, [])
+      setTasks((currentTasks) =>
+        currentTasks.map((currentTask) =>
+          currentTask.id === taskId
+            ? { ...currentTask, ...updates, id: currentTask.id }
+            : currentTask,
+        ),
+      )
+
+      const statusChanged = updates.status !== undefined && updates.status !== task.status
+      const activityType = statusChanged
+        ? updates.status === 'completed'
+          ? 'task-completed'
+          : 'task-status-changed'
+        : 'task-updated'
+      const description = statusChanged
+        ? updates.status === 'completed'
+          ? `completed the ${task.title} task`
+          : `changed the ${task.title} task status to ${taskStatusLabels[updates.status!]}`
+        : `updated the ${task.title} task`
+
+      recordActivity({
+        type: activityType,
+        description,
+        projectId: task.projectId,
+        taskId: task.id,
+      })
+    },
+    [recordActivity, tasks],
+  )
+
+  const deleteTask = useCallback(
+    (taskId: string) => {
+      const task = tasks.find((candidate) => candidate.id === taskId)
+
+      if (!task) {
+        return
+      }
+
+      setTasks((currentTasks) => currentTasks.filter((currentTask) => currentTask.id !== taskId))
+      recordActivity({
+        type: 'task-deleted',
+        description: `deleted the ${task.title} task`,
+        projectId: task.projectId,
+        taskId: task.id,
+      })
+    },
+    [recordActivity, tasks],
+  )
+
+  const updateTaskStatus = useCallback(
+    (taskId: string, status: TaskStatus) => {
+      const task = tasks.find((candidate) => candidate.id === taskId)
+
+      if (!task || task.status === status) {
+        return
+      }
+
+      setTasks((currentTasks) =>
+        currentTasks.map((currentTask) =>
+          currentTask.id === taskId ? { ...currentTask, status } : currentTask,
+        ),
+      )
+
+      recordActivity({
+        type: status === 'completed' ? 'task-completed' : 'task-status-changed',
+        description:
+          status === 'completed'
+            ? `completed the ${task.title} task`
+            : `changed the ${task.title} task status to ${taskStatusLabels[status]}`,
+        projectId: task.projectId,
+        taskId: task.id,
+      })
+    },
+    [recordActivity, tasks],
+  )
 
   const value = useMemo<TaskContextValue>(
     () => ({ tasks, createTask, updateTask, deleteTask, updateTaskStatus }),

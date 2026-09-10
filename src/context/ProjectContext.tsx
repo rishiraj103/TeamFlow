@@ -4,6 +4,7 @@ import { projects as seedProjects } from '../data/projects'
 import { getItem, setItem } from '../services/storage'
 import { isProjectArray } from '../services/storageValidation'
 import type { Project } from '../types'
+import { useActivities } from './useActivities'
 import { ProjectContext, type ProjectContextValue, type ProjectDraft } from './projectContextValue'
 
 function createProjectId(existingProjects: Project[]): string {
@@ -32,6 +33,7 @@ function readInitialProjects(): Project[] {
 }
 
 export function ProjectProvider({ children }: ProjectProviderProps) {
+  const { recordActivity } = useActivities()
   const [projects, setProjects] = useState<Project[]>(readInitialProjects)
   const initialProjects = useRef(projects)
 
@@ -52,22 +54,59 @@ export function ProjectProvider({ children }: ProjectProviderProps) {
       }
 
       setProjects((currentProjects) => [newProject, ...currentProjects])
+      recordActivity({
+        type: 'project-created',
+        description: `created the ${newProject.name} project`,
+        projectId: newProject.id,
+      })
       return newProject
     },
-    [projects],
+    [projects, recordActivity],
   )
 
-  const updateProject = useCallback((projectId: string, updates: Partial<Omit<Project, 'id'>>) => {
-    setProjects((currentProjects) =>
-      currentProjects.map((project) =>
-        project.id === projectId ? { ...project, ...updates, id: project.id } : project,
-      ),
-    )
-  }, [])
+  const updateProject = useCallback(
+    (projectId: string, updates: Partial<Omit<Project, 'id'>>) => {
+      const project = projects.find((candidate) => candidate.id === projectId)
 
-  const deleteProject = useCallback((projectId: string) => {
-    setProjects((currentProjects) => currentProjects.filter((project) => project.id !== projectId))
-  }, [])
+      if (!project) {
+        return
+      }
+
+      setProjects((currentProjects) =>
+        currentProjects.map((currentProject) =>
+          currentProject.id === projectId
+            ? { ...currentProject, ...updates, id: currentProject.id }
+            : currentProject,
+        ),
+      )
+      recordActivity({
+        type: 'project-updated',
+        description: `updated the ${project.name} project`,
+        projectId: project.id,
+      })
+    },
+    [projects, recordActivity],
+  )
+
+  const deleteProject = useCallback(
+    (projectId: string) => {
+      const project = projects.find((candidate) => candidate.id === projectId)
+
+      if (!project) {
+        return
+      }
+
+      setProjects((currentProjects) =>
+        currentProjects.filter((currentProject) => currentProject.id !== projectId),
+      )
+      recordActivity({
+        type: 'project-deleted',
+        description: `deleted the ${project.name} project`,
+        projectId: project.id,
+      })
+    },
+    [projects, recordActivity],
+  )
 
   const value = useMemo<ProjectContextValue>(
     () => ({ projects, createProject, updateProject, deleteProject }),
