@@ -5,12 +5,15 @@ import { TaskDistribution } from '../components/dashboard/TaskDistribution'
 import { UpcomingDeadlines } from '../components/dashboard/UpcomingDeadlines'
 import { useProjects } from '../context/useProjects'
 import { useTasks } from '../context/useTasks'
-import { activities } from '../data/activities'
+import { useActivities } from '../context/useActivities'
+import { useAuth } from '../context/useAuth'
 import { users } from '../data/users'
 
 export function Dashboard() {
   const { projects } = useProjects()
   const { tasks } = useTasks()
+  const { activities } = useActivities()
+  const { currentUser } = useAuth()
 
   const activeProjects = projects.filter((project) => project.status === 'active').length
   const completedTasks = tasks.filter((task) => task.status === 'completed').length
@@ -48,7 +51,7 @@ export function Dashboard() {
 
       <section className="row g-4" aria-label="Activity and deadlines">
         <div className="col-12 col-xl-7">
-          <ActivityList activities={activities} users={users} />
+          <ActivityList activities={activities} users={users} currentUser={currentUser} />
         </div>
         <div className="col-12 col-xl-5">
           <UpcomingDeadlines tasks={tasks} projects={projects} users={users} />

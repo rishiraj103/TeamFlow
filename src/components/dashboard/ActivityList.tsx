@@ -1,10 +1,11 @@
 import type { Activity, User } from '../../types'
-import { formatProjectDateTime } from '../../utils/projectDate'
+import { formatActivityTimestamp } from '../../utils/activityTime'
 import { Card } from '../common/Card'
 
 export interface ActivityListProps {
   activities: Activity[]
   users: User[]
+  currentUser?: User | null
   limit?: number
 }
 
@@ -13,7 +14,7 @@ function getActivityTimestamp(timestamp: string): number {
   return Number.isNaN(parsedTimestamp) ? 0 : parsedTimestamp
 }
 
-export function ActivityList({ activities, users, limit = 5 }: ActivityListProps) {
+export function ActivityList({ activities, users, currentUser, limit = 5 }: ActivityListProps) {
   const recentActivities = [...activities]
     .sort(
       (leftActivity, rightActivity) =>
@@ -31,7 +32,9 @@ export function ActivityList({ activities, users, limit = 5 }: ActivityListProps
       {recentActivities.length > 0 ? (
         <ol className="activity-list list-unstyled mb-0">
           {recentActivities.map((activity) => {
-            const actor = users.find((user) => user.id === activity.userId)
+            const actor =
+              users.find((user) => user.id === activity.userId) ??
+              (currentUser?.id === activity.userId ? currentUser : undefined)
 
             return (
               <li key={activity.id} className="activity-list__item">
@@ -47,7 +50,7 @@ export function ActivityList({ activities, users, limit = 5 }: ActivityListProps
                     <strong>{actor?.name ?? 'Unknown user'}</strong> {activity.description}
                   </p>
                   <time dateTime={activity.timestamp}>
-                    {formatProjectDateTime(activity.timestamp)}
+                    {formatActivityTimestamp(activity.timestamp)}
                   </time>
                 </div>
               </li>

@@ -6,13 +6,16 @@ import { Card } from '../components/common/Card'
 import { Modal } from '../components/common/Modal'
 import { ProjectDeleteModal } from '../components/projects/ProjectDeleteModal'
 import { ProjectForm } from '../components/projects/ProjectForm'
+import { useActivities } from '../context/useActivities'
+import { useAuth } from '../context/useAuth'
 import { useProjects } from '../context/useProjects'
 import { useTasks } from '../context/useTasks'
-import { activities } from '../data/activities'
 import { users } from '../data/users'
 import type { ProjectDraft } from '../context/projectContextValue'
-import type { ProjectStatus, Task, User } from '../types'
-import { formatProjectDate, formatProjectDateTime } from '../utils/projectDate'
+import type { Activity, ProjectStatus, Task, User } from '../types'
+import { formatActivityTimestamp } from '../utils/activityTime'
+import { formatProjectDate } from '../utils/projectDate'
+import { sortActivitiesByNewest } from '../services/activity'
 
 const tabs = [
   { id: 'overview', label: 'Overview' },
@@ -160,15 +163,27 @@ function ProjectMembers({ memberIds }: { memberIds: string[] }) {
   )
 }
 
-function ProjectActivity({ projectId }: { projectId: string }) {
-  const projectActivities = activities.filter((activity) => activity.projectId === projectId)
+function ProjectActivity({
+  projectId,
+  activities,
+  currentUser,
+}: {
+  projectId: string
+  activities: Activity[]
+  currentUser: User | null
+}) {
+  const projectActivities = sortActivitiesByNewest(
+    activities.filter((activity) => activity.projectId === projectId),
+  )
 
   return (
     <Card title="Project activity" subtitle="Recent updates connected to this project.">
       {projectActivities.length > 0 ? (
         <ol className="project-details-page__activity-list list-unstyled mb-0">
           {projectActivities.map((activity) => {
-            const actor = users.find((user) => user.id === activity.userId)
+            const actor =
+              users.find((user) => user.id === activity.userId) ??
+              (currentUser?.id === activity.userId ? currentUser : undefined)
 
             return (
               <li key={activity.id} className="project-details-page__activity-item">
@@ -178,7 +193,7 @@ function ProjectActivity({ projectId }: { projectId: string }) {
                     <strong>{actor?.name ?? 'Unknown user'}</strong> {activity.description}
                   </p>
                   <time dateTime={activity.timestamp}>
-                    {formatProjectDateTime(activity.timestamp)}
+                    {formatActivityTimestamp(activity.timestamp)}
                   </time>
                 </div>
               </li>
@@ -195,6 +210,8 @@ function ProjectActivity({ projectId }: { projectId: string }) {
 export function ProjectDetails() {
   const { projectId } = useParams<{ projectId: string }>()
   const navigate = useNavigate()
+  const { currentUser } = useAuth()
+  const { activities } = useActivities()
   const { projects, updateProject, deleteProject } = useProjects()
   const { tasks } = useTasks()
   const [activeTab, setActiveTab] = useState<ProjectDetailsTab>('overview')
@@ -346,7 +363,13 @@ export function ProjectDetails() {
         ) : null}
         {activeTab === 'tasks' ? <ProjectTasks projectTasks={relatedTasks} /> : null}
         {activeTab === 'members' ? <ProjectMembers memberIds={currentProject.memberIds} /> : null}
-        {activeTab === 'activity' ? <ProjectActivity projectId={currentProject.id} /> : null}
+        {activeTab === 'activity' ? (
+          <ProjectActivity
+            projectId={currentProject.id}
+            activities={activities}
+            currentUser={currentUser}
+          />
+        ) : null}
       </div>
 
       <Modal open={editOpen} title="Edit project" onClose={() => setEditOpen(false)} size="lg">
