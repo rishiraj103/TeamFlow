@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AppLayout } from './components/layout/AppLayout'
 import { ProtectedRoute, PublicOnlyRoute } from './components/routing/AuthRoute'
 import { AuthProvider } from './context/AuthContext'
+import { ActivityProvider } from './context/ActivityContext'
 import { ProjectProvider } from './context/ProjectContext'
 import { TaskProvider } from './context/TaskContext'
 import { ThemeProvider } from './context/ThemeContext'
@@ -19,45 +20,47 @@ import { Team } from './pages/Team'
 function App() {
   return (
     <AuthProvider>
-      <ProjectProvider>
-        <TaskProvider>
-          <ThemeProvider>
-            <NotificationPreferencesProvider>
-              <BrowserRouter>
-                <Routes>
-                  <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      <ActivityProvider>
+        <ProjectProvider>
+          <TaskProvider>
+            <ThemeProvider>
+              <NotificationPreferencesProvider>
+                <BrowserRouter>
+                  <Routes>
+                    <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
-                  <Route element={<PublicOnlyRoute />}>
-                    <Route path="/login" element={<Login />} />
-                  </Route>
-
-                  <Route element={<ProtectedRoute />}>
-                    <Route
-                      element={
-                        <AppLayout
-                          pageTitle="TeamFlow workspace"
-                          pageEyebrow="Application"
-                          notificationCount={3}
-                        />
-                      }
-                    >
-                      <Route path="/dashboard" element={<Dashboard />} />
-                      <Route path="/projects" element={<Projects />} />
-                      <Route path="/projects/:projectId" element={<ProjectDetails />} />
-                      <Route path="/tasks" element={<Tasks />} />
-                      <Route path="/team" element={<Team />} />
-                      <Route path="/analytics" element={<Analytics />} />
-                      <Route path="/settings" element={<Settings />} />
+                    <Route element={<PublicOnlyRoute />}>
+                      <Route path="/login" element={<Login />} />
                     </Route>
-                  </Route>
 
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </BrowserRouter>
-            </NotificationPreferencesProvider>
-          </ThemeProvider>
-        </TaskProvider>
-      </ProjectProvider>
+                    <Route element={<ProtectedRoute />}>
+                      <Route
+                        element={
+                          <AppLayout
+                            pageTitle="TeamFlow workspace"
+                            pageEyebrow="Application"
+                            notificationCount={3}
+                          />
+                        }
+                      >
+                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/projects" element={<Projects />} />
+                        <Route path="/projects/:projectId" element={<ProjectDetails />} />
+                        <Route path="/tasks" element={<Tasks />} />
+                        <Route path="/team" element={<Team />} />
+                        <Route path="/analytics" element={<Analytics />} />
+                        <Route path="/settings" element={<Settings />} />
+                      </Route>
+                    </Route>
+
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </BrowserRouter>
+              </NotificationPreferencesProvider>
+            </ThemeProvider>
+          </TaskProvider>
+        </ProjectProvider>
+      </ActivityProvider>
     </AuthProvider>
   )
 }

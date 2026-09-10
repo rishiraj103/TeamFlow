@@ -17,7 +17,11 @@ export const TASK_PRIORITIES = ['low', 'medium', 'high'] as const
 export const ACTIVITY_TYPES = [
   'project-created',
   'project-updated',
+  'project-deleted',
   'task-created',
+  'task-updated',
+  'task-deleted',
+  'task-status-changed',
   'task-assigned',
   'task-completed',
 ] as const

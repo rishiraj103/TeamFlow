@@ -1,5 +1,5 @@
-import { PROJECT_STATUSES, TASK_PRIORITIES, TASK_STATUSES } from '../constants/data'
-import type { NotificationPreferences, Project, Task, ThemeMode } from '../types'
+import { ACTIVITY_TYPES, PROJECT_STATUSES, TASK_PRIORITIES, TASK_STATUSES } from '../constants/data'
+import type { Activity, NotificationPreferences, Project, Task, ThemeMode } from '../types'
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null
@@ -55,6 +55,26 @@ function isTask(value: unknown): value is Task {
 
 export function isTaskArray(value: unknown): value is Task[] {
   return Array.isArray(value) && value.every(isTask) && hasUniqueIds(value)
+}
+
+function isActivity(value: unknown): value is Activity {
+  if (!isRecord(value)) {
+    return false
+  }
+
+  return (
+    typeof value.id === 'string' &&
+    typeof value.userId === 'string' &&
+    ACTIVITY_TYPES.includes(value.type as Activity['type']) &&
+    typeof value.description === 'string' &&
+    typeof value.timestamp === 'string' &&
+    (value.projectId === undefined || typeof value.projectId === 'string') &&
+    (value.taskId === undefined || typeof value.taskId === 'string')
+  )
+}
+
+export function isActivityArray(value: unknown): value is Activity[] {
+  return Array.isArray(value) && value.every(isActivity) && hasUniqueIds(value)
 }
 
 export function isThemeMode(value: unknown): value is ThemeMode {
