@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { useCallback, useMemo, useState, type ReactNode } from 'react'
 import { STORAGE_KEYS } from '../constants/storage'
 import { projects as seedProjects } from '../data/projects'
 import { getItem, setItem } from '../services/storage'
@@ -28,22 +28,41 @@ export interface ProjectProviderProps {
   children: ReactNode
 }
 
-function readInitialProjects(): Project[] {
-  return getItem<Project[]>(STORAGE_KEYS.projects, isProjectArray) ?? [...seedProjects]
+interface InitialProjectsState {
+  projects: Project[]
+  error: string | null
+}
+
+function readInitialProjectsState(): InitialProjectsState {
+  let loadIssue: string | null = null
+  const projects = getItem<Project[]>(STORAGE_KEYS.projects, isProjectArray, (issue) => {
+    loadIssue ??= issue.message
+  }) ?? [...seedProjects]
+
+  return { projects, error: loadIssue }
 }
 
 export function ProjectProvider({ children }: ProjectProviderProps) {
   const { recordActivity } = useActivities()
-  const [projects, setProjects] = useState<Project[]>(readInitialProjects)
-  const initialProjects = useRef(projects)
+  const [initialState] = useState<InitialProjectsState>(readInitialProjectsState)
+  const [projects, setProjects] = useState<Project[]>(initialState.projects)
+  const [error, setError] = useState<string | null>(initialState.error)
+  const isLoading = false
 
-  useEffect(() => {
-    if (projects === initialProjects.current) {
+  const persistProjects = useCallback((nextProjects: Project[]) => {
+    if (!setItem(STORAGE_KEYS.projects, nextProjects)) {
+      setError(
+        `We couldn't save data for ${STORAGE_KEYS.projects}. Your latest changes are currently in memory only.`,
+      )
       return
     }
 
-    setItem(STORAGE_KEYS.projects, projects)
-  }, [projects])
+    setError(null)
+  }, [])
+
+  const retryPersistence = useCallback(() => {
+    persistProjects(projects)
+  }, [persistProjects, projects])
 
   const createProject = useCallback(
     (project: ProjectDraft) => {
@@ -53,7 +72,9 @@ export function ProjectProvider({ children }: ProjectProviderProps) {
         progress: 0,
       }
 
-      setProjects((currentProjects) => [newProject, ...currentProjects])
+      const nextProjects = [newProject, ...projects]
+      setProjects(nextProjects)
+      persistProjects(nextProjects)
       recordActivity({
         type: 'project-created',
         description: `created the ${newProject.name} project`,
@@ -61,7 +82,7 @@ export function ProjectProvider({ children }: ProjectProviderProps) {
       })
       return newProject
     },
-    [projects, recordActivity],
+    [persistProjects, projects, recordActivity],
   )
 
   const updateProject = useCallback(
@@ -72,20 +93,20 @@ export function ProjectProvider({ children }: ProjectProviderProps) {
         return
       }
 
-      setProjects((currentProjects) =>
-        currentProjects.map((currentProject) =>
-          currentProject.id === projectId
-            ? { ...currentProject, ...updates, id: currentProject.id }
-            : currentProject,
-        ),
+      const nextProjects = projects.map((currentProject) =>
+        currentProject.id === projectId
+          ? { ...currentProject, ...updates, id: currentProject.id }
+          : currentProject,
       )
+      setProjects(nextProjects)
+      persistProjects(nextProjects)
       recordActivity({
         type: 'project-updated',
         description: `updated the ${project.name} project`,
         projectId: project.id,
       })
     },
-    [projects, recordActivity],
+    [persistProjects, projects, recordActivity],
   )
 
   const deleteProject = useCallback(
@@ -96,21 +117,29 @@ export function ProjectProvider({ children }: ProjectProviderProps) {
         return
       }
 
-      setProjects((currentProjects) =>
-        currentProjects.filter((currentProject) => currentProject.id !== projectId),
-      )
+      const nextProjects = projects.filter((currentProject) => currentProject.id !== projectId)
+      setProjects(nextProjects)
+      persistProjects(nextProjects)
       recordActivity({
         type: 'project-deleted',
         description: `deleted the ${project.name} project`,
         projectId: project.id,
       })
     },
-    [projects, recordActivity],
+    [persistProjects, projects, recordActivity],
   )
 
   const value = useMemo<ProjectContextValue>(
-    () => ({ projects, createProject, updateProject, deleteProject }),
-    [createProject, deleteProject, projects, updateProject],
+    () => ({
+      projects,
+      isLoading,
+      error,
+      retryPersistence,
+      createProject,
+      updateProject,
+      deleteProject,
+    }),
+    [createProject, deleteProject, error, isLoading, projects, retryPersistence, updateProject],
   )
 
   return <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>

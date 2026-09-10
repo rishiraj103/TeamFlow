@@ -3,6 +3,8 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Badge } from '../components/common/Badge'
 import { Button } from '../components/common/Button'
 import { Card } from '../components/common/Card'
+import { ErrorState } from '../components/common/ErrorState'
+import { LoadingState } from '../components/common/LoadingState'
 import { Modal } from '../components/common/Modal'
 import { ProjectDeleteModal } from '../components/projects/ProjectDeleteModal'
 import { ProjectForm } from '../components/projects/ProjectForm'
@@ -211,14 +213,45 @@ export function ProjectDetails() {
   const { projectId } = useParams<{ projectId: string }>()
   const navigate = useNavigate()
   const { currentUser } = useAuth()
-  const { activities } = useActivities()
-  const { projects, updateProject, deleteProject } = useProjects()
-  const { tasks } = useTasks()
+  const {
+    activities,
+    isLoading: activitiesLoading,
+    error: activitiesError,
+    retryPersistence: retryActivities,
+  } = useActivities()
+  const {
+    projects,
+    isLoading: projectsLoading,
+    error: projectsError,
+    retryPersistence: retryProjects,
+    updateProject,
+    deleteProject,
+  } = useProjects()
+  const {
+    tasks,
+    isLoading: tasksLoading,
+    error: tasksError,
+    retryPersistence: retryTasks,
+  } = useTasks()
   const [activeTab, setActiveTab] = useState<ProjectDetailsTab>('overview')
   const [editOpen, setEditOpen] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([])
   const project = projects.find((candidate) => candidate.id === projectId)
+  const isLoading = projectsLoading || tasksLoading || activitiesLoading
+  const persistenceErrors = [projectsError, tasksError, activitiesError].filter(
+    (message): message is string => message !== null,
+  )
+
+  function retryAllPersistence() {
+    retryProjects()
+    retryTasks()
+    retryActivities()
+  }
+
+  if (isLoading) {
+    return <LoadingState label="Loading project details..." />
+  }
 
   if (!project) {
     return <ProjectNotFound />
@@ -267,6 +300,19 @@ export function ProjectDetails() {
       <Link to="/projects" className="project-details-page__back btn btn-teamflow-ghost btn-sm">
         <span aria-hidden="true">←</span> Back to Projects
       </Link>
+
+      {persistenceErrors.length > 0 ? (
+        <ErrorState
+          title="Project data needs attention"
+          description={persistenceErrors.join(' ')}
+          action={
+            <Button variant="outline" onClick={retryAllPersistence}>
+              Try saving again
+            </Button>
+          }
+          className="mb-4"
+        />
+      ) : null}
 
       <header className="project-details-page__header">
         <div className="project-details-page__heading">

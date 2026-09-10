@@ -1,6 +1,7 @@
 import type { Activity, User } from '../../types'
 import { formatActivityTimestamp } from '../../utils/activityTime'
 import { Card } from '../common/Card'
+import { EmptyState } from '../common/EmptyState'
 
 export interface ActivityListProps {
   activities: Activity[]
@@ -58,7 +59,11 @@ export function ActivityList({ activities, users, currentUser, limit = 5 }: Acti
           })}
         </ol>
       ) : (
-        <p className="text-muted-strong mb-0">No activity has been recorded yet.</p>
+        <EmptyState
+          title="No activity yet."
+          description="Workspace activity will appear here as projects and tasks change."
+          className="dashboard-empty-state"
+        />
       )}
     </Card>
   )

@@ -5,6 +5,9 @@ export type ProjectDraft = Omit<Project, 'id' | 'progress'>
 
 export interface ProjectContextValue {
   projects: Project[]
+  isLoading: boolean
+  error: string | null
+  retryPersistence: () => void
   createProject: (project: ProjectDraft) => Project
   updateProject: (projectId: string, updates: Partial<Omit<Project, 'id'>>) => void
   deleteProject: (projectId: string) => void

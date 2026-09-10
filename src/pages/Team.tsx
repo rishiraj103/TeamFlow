@@ -1,15 +1,32 @@
 import { useMemo, useState } from 'react'
+import { Button } from '../components/common/Button'
 import { EmptyState } from '../components/common/EmptyState'
+import { ErrorState } from '../components/common/ErrorState'
 import { Input } from '../components/common/Input'
+import { LoadingState } from '../components/common/LoadingState'
 import { TeamMemberCard } from '../components/team/TeamMemberCard'
 import { useProjects } from '../context/useProjects'
 import { useTasks } from '../context/useTasks'
 import { users } from '../data/users'
 
 export function Team() {
-  const { projects } = useProjects()
-  const { tasks } = useTasks()
+  const {
+    projects,
+    isLoading: projectsLoading,
+    error: projectsError,
+    retryPersistence: retryProjects,
+  } = useProjects()
+  const {
+    tasks,
+    isLoading: tasksLoading,
+    error: tasksError,
+    retryPersistence: retryTasks,
+  } = useTasks()
   const [search, setSearch] = useState('')
+  const isLoading = projectsLoading || tasksLoading
+  const dataError = [projectsError, tasksError].find(
+    (message): message is string => message !== null,
+  )
 
   const visibleMembers = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase()
@@ -32,6 +49,15 @@ export function Team() {
       })
   }, [projects, search, tasks])
 
+  function retryTeamPersistence() {
+    retryProjects()
+    retryTasks()
+  }
+
+  if (isLoading) {
+    return <LoadingState label="Loading team members..." />
+  }
+
   return (
     <div className="team-page">
       <header className="team-page__header mb-4">
@@ -41,6 +67,19 @@ export function Team() {
           See who is working across TeamFlow and how responsibilities are distributed.
         </p>
       </header>
+
+      {dataError ? (
+        <ErrorState
+          title="Team data needs attention"
+          description={dataError}
+          action={
+            <Button variant="outline" onClick={retryTeamPersistence}>
+              Try saving again
+            </Button>
+          }
+          className="mb-4"
+        />
+      ) : null}
 
       <section className="team-page__filters mb-4" aria-label="Team member search">
         <Input

@@ -42,6 +42,21 @@
   min-width: 0;
 }
 
+.dashboard-empty-state {
+  padding: 1rem 0;
+  background-color: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.dashboard-empty-state .empty-state__title {
+  font-size: 1rem;
+}
+
+.dashboard-empty-state .empty-state__description {
+  font-size: 0.8125rem;
+}
+
 .project-progress,
 .task-distribution,
 .activity-list,

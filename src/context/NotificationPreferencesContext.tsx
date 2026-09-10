@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { useCallback, useMemo, useState, type ReactNode } from 'react'
 import { STORAGE_KEYS } from '../constants/storage'
 import type { NotificationPreferences } from '../types'
 import { getItem, setItem } from '../services/storage'
@@ -18,43 +18,78 @@ export interface NotificationPreferencesProviderProps {
   children: ReactNode
 }
 
-function readInitialPreferences(): NotificationPreferences {
-  return (
-    getItem<NotificationPreferences>(STORAGE_KEYS.notifications, isNotificationPreferences) ?? {
-      ...DEFAULT_NOTIFICATION_PREFERENCES,
-    }
-  )
+interface InitialPreferencesState {
+  preferences: NotificationPreferences
+  error: string | null
+}
+
+function readInitialPreferencesState(): InitialPreferencesState {
+  let loadIssue: string | null = null
+  const preferences = getItem<NotificationPreferences>(
+    STORAGE_KEYS.notifications,
+    isNotificationPreferences,
+    (issue) => {
+      loadIssue ??= issue.message
+    },
+  ) ?? { ...DEFAULT_NOTIFICATION_PREFERENCES }
+
+  return { preferences, error: loadIssue }
 }
 
 export function NotificationPreferencesProvider({
   children,
 }: NotificationPreferencesProviderProps) {
-  const [notificationPreferences, setNotificationPreferences] =
-    useState<NotificationPreferences>(readInitialPreferences)
-  const initialPreferences = useRef(notificationPreferences)
+  const [initialState] = useState<InitialPreferencesState>(readInitialPreferencesState)
+  const [notificationPreferences, setNotificationPreferencesState] =
+    useState<NotificationPreferences>(initialState.preferences)
+  const [error, setError] = useState<string | null>(initialState.error)
 
-  useEffect(() => {
-    if (notificationPreferences === initialPreferences.current) {
+  const persistPreferences = useCallback((preferences: NotificationPreferences) => {
+    if (!setItem(STORAGE_KEYS.notifications, preferences)) {
+      setError(
+        `We couldn't save data for ${STORAGE_KEYS.notifications}. Your latest preferences are currently in memory only.`,
+      )
       return
     }
 
-    setItem(STORAGE_KEYS.notifications, notificationPreferences)
-  }, [notificationPreferences])
-
-  const updateNotificationPreferences = useCallback((updates: Partial<NotificationPreferences>) => {
-    setNotificationPreferences((currentPreferences) => ({
-      ...currentPreferences,
-      ...updates,
-    }))
+    setError(null)
   }, [])
+
+  const setNotificationPreferences = useCallback(
+    (preferences: NotificationPreferences) => {
+      setNotificationPreferencesState(preferences)
+      persistPreferences(preferences)
+    },
+    [persistPreferences],
+  )
+
+  const updateNotificationPreferences = useCallback(
+    (updates: Partial<NotificationPreferences>) => {
+      const nextPreferences = { ...notificationPreferences, ...updates }
+      setNotificationPreferences(nextPreferences)
+    },
+    [notificationPreferences, setNotificationPreferences],
+  )
+
+  const retryPersistence = useCallback(() => {
+    persistPreferences(notificationPreferences)
+  }, [notificationPreferences, persistPreferences])
 
   const value = useMemo<NotificationPreferencesContextValue>(
     () => ({
       notificationPreferences,
+      error,
+      retryPersistence,
       setNotificationPreferences,
       updateNotificationPreferences,
     }),
-    [notificationPreferences, updateNotificationPreferences],
+    [
+      error,
+      notificationPreferences,
+      retryPersistence,
+      setNotificationPreferences,
+      updateNotificationPreferences,
+    ],
   )
 
   return (

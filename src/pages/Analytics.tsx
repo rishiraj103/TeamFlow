@@ -2,15 +2,37 @@ import { useMemo } from 'react'
 import { AnalyticsCard } from '../components/analytics/AnalyticsCard'
 import { MetricBar } from '../components/analytics/MetricBar'
 import { ProgressMetric } from '../components/analytics/ProgressMetric'
+import { Button } from '../components/common/Button'
 import { EmptyState } from '../components/common/EmptyState'
+import { ErrorState } from '../components/common/ErrorState'
+import { LoadingState } from '../components/common/LoadingState'
 import { useProjects } from '../context/useProjects'
 import { useTasks } from '../context/useTasks'
 import { calculateAnalytics, formatAnalyticsPercentage } from '../utils/analytics'
 
 export function Analytics() {
-  const { projects } = useProjects()
-  const { tasks } = useTasks()
+  const {
+    projects,
+    isLoading: projectsLoading,
+    error: projectsError,
+    retryPersistence: retryProjects,
+  } = useProjects()
+  const {
+    tasks,
+    isLoading: tasksLoading,
+    error: tasksError,
+    retryPersistence: retryTasks,
+  } = useTasks()
   const analytics = useMemo(() => calculateAnalytics(projects, tasks), [projects, tasks])
+  const isLoading = projectsLoading || tasksLoading
+  const dataError = [projectsError, tasksError].find(
+    (message): message is string => message !== null,
+  )
+
+  function retryAnalyticsPersistence() {
+    retryProjects()
+    retryTasks()
+  }
 
   const highestTaskStatusCount = Math.max(
     ...analytics.tasksByStatus.map((metric) => metric.count),
@@ -25,6 +47,10 @@ export function Analytics() {
     1,
   )
 
+  if (isLoading) {
+    return <LoadingState label="Loading analytics..." />
+  }
+
   return (
     <div className="analytics-page">
       <header className="analytics-page__header mb-4">
@@ -34,6 +60,19 @@ export function Analytics() {
           Understand task distribution, delivery progress, and completion across TeamFlow.
         </p>
       </header>
+
+      {dataError ? (
+        <ErrorState
+          title="Analytics data needs attention"
+          description={dataError}
+          action={
+            <Button variant="outline" onClick={retryAnalyticsPersistence}>
+              Try saving again
+            </Button>
+          }
+          className="mb-4"
+        />
+      ) : null}
 
       <section className="analytics-page__distribution-grid mb-4" aria-label="Workspace metrics">
         <AnalyticsCard title="Tasks by status" subtitle="Current task volume by workflow stage.">

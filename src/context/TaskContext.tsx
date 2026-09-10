@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { useCallback, useMemo, useState, type ReactNode } from 'react'
 import { STORAGE_KEYS } from '../constants/storage'
 import { tasks as seedTasks } from '../data/tasks'
 import { getItem, setItem } from '../services/storage'
@@ -29,22 +29,41 @@ export interface TaskProviderProps {
   children: ReactNode
 }
 
-function readInitialTasks(): Task[] {
-  return getItem<Task[]>(STORAGE_KEYS.tasks, isTaskArray) ?? [...seedTasks]
+interface InitialTasksState {
+  tasks: Task[]
+  error: string | null
+}
+
+function readInitialTasksState(): InitialTasksState {
+  let loadIssue: string | null = null
+  const tasks = getItem<Task[]>(STORAGE_KEYS.tasks, isTaskArray, (issue) => {
+    loadIssue ??= issue.message
+  }) ?? [...seedTasks]
+
+  return { tasks, error: loadIssue }
 }
 
 export function TaskProvider({ children }: TaskProviderProps) {
   const { recordActivity } = useActivities()
-  const [tasks, setTasks] = useState<Task[]>(readInitialTasks)
-  const initialTasks = useRef(tasks)
+  const [initialState] = useState<InitialTasksState>(readInitialTasksState)
+  const [tasks, setTasks] = useState<Task[]>(initialState.tasks)
+  const [error, setError] = useState<string | null>(initialState.error)
+  const isLoading = false
 
-  useEffect(() => {
-    if (tasks === initialTasks.current) {
+  const persistTasks = useCallback((nextTasks: Task[]) => {
+    if (!setItem(STORAGE_KEYS.tasks, nextTasks)) {
+      setError(
+        `We couldn't save data for ${STORAGE_KEYS.tasks}. Your latest changes are currently in memory only.`,
+      )
       return
     }
 
-    setItem(STORAGE_KEYS.tasks, tasks)
-  }, [tasks])
+    setError(null)
+  }, [])
+
+  const retryPersistence = useCallback(() => {
+    persistTasks(tasks)
+  }, [persistTasks, tasks])
 
   const createTask = useCallback(
     (task: TaskDraft) => {
@@ -53,7 +72,9 @@ export function TaskProvider({ children }: TaskProviderProps) {
         id: createTaskId(tasks),
       }
 
-      setTasks((currentTasks) => [newTask, ...currentTasks])
+      const nextTasks = [newTask, ...tasks]
+      setTasks(nextTasks)
+      persistTasks(nextTasks)
       recordActivity({
         type: 'task-created',
         description: `created the ${newTask.title} task`,
@@ -62,7 +83,7 @@ export function TaskProvider({ children }: TaskProviderProps) {
       })
       return newTask
     },
-    [recordActivity, tasks],
+    [persistTasks, recordActivity, tasks],
   )
 
   const updateTask = useCallback(
@@ -73,13 +94,13 @@ export function TaskProvider({ children }: TaskProviderProps) {
         return
       }
 
-      setTasks((currentTasks) =>
-        currentTasks.map((currentTask) =>
-          currentTask.id === taskId
-            ? { ...currentTask, ...updates, id: currentTask.id }
-            : currentTask,
-        ),
+      const nextTasks = tasks.map((currentTask) =>
+        currentTask.id === taskId
+          ? { ...currentTask, ...updates, id: currentTask.id }
+          : currentTask,
       )
+      setTasks(nextTasks)
+      persistTasks(nextTasks)
 
       const statusChanged = updates.status !== undefined && updates.status !== task.status
       const activityType = statusChanged
@@ -100,7 +121,7 @@ export function TaskProvider({ children }: TaskProviderProps) {
         taskId: task.id,
       })
     },
-    [recordActivity, tasks],
+    [persistTasks, recordActivity, tasks],
   )
 
   const deleteTask = useCallback(
@@ -111,7 +132,9 @@ export function TaskProvider({ children }: TaskProviderProps) {
         return
       }
 
-      setTasks((currentTasks) => currentTasks.filter((currentTask) => currentTask.id !== taskId))
+      const nextTasks = tasks.filter((currentTask) => currentTask.id !== taskId)
+      setTasks(nextTasks)
+      persistTasks(nextTasks)
       recordActivity({
         type: 'task-deleted',
         description: `deleted the ${task.title} task`,
@@ -119,7 +142,7 @@ export function TaskProvider({ children }: TaskProviderProps) {
         taskId: task.id,
       })
     },
-    [recordActivity, tasks],
+    [persistTasks, recordActivity, tasks],
   )
 
   const updateTaskStatus = useCallback(
@@ -130,11 +153,11 @@ export function TaskProvider({ children }: TaskProviderProps) {
         return
       }
 
-      setTasks((currentTasks) =>
-        currentTasks.map((currentTask) =>
-          currentTask.id === taskId ? { ...currentTask, status } : currentTask,
-        ),
+      const nextTasks = tasks.map((currentTask) =>
+        currentTask.id === taskId ? { ...currentTask, status } : currentTask,
       )
+      setTasks(nextTasks)
+      persistTasks(nextTasks)
 
       recordActivity({
         type: status === 'completed' ? 'task-completed' : 'task-status-changed',
@@ -146,12 +169,30 @@ export function TaskProvider({ children }: TaskProviderProps) {
         taskId: task.id,
       })
     },
-    [recordActivity, tasks],
+    [persistTasks, recordActivity, tasks],
   )
 
   const value = useMemo<TaskContextValue>(
-    () => ({ tasks, createTask, updateTask, deleteTask, updateTaskStatus }),
-    [createTask, deleteTask, tasks, updateTask, updateTaskStatus],
+    () => ({
+      tasks,
+      isLoading,
+      error,
+      retryPersistence,
+      createTask,
+      updateTask,
+      deleteTask,
+      updateTaskStatus,
+    }),
+    [
+      createTask,
+      deleteTask,
+      error,
+      isLoading,
+      retryPersistence,
+      tasks,
+      updateTask,
+      updateTaskStatus,
+    ],
   )
 
   return <TaskContext.Provider value={value}>{children}</TaskContext.Provider>

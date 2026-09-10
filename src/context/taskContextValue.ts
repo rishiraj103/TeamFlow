@@ -5,6 +5,9 @@ export type TaskDraft = Omit<Task, 'id'>
 
 export interface TaskContextValue {
   tasks: Task[]
+  isLoading: boolean
+  error: string | null
+  retryPersistence: () => void
   createTask: (task: TaskDraft) => Task
   updateTask: (taskId: string, updates: Partial<Omit<Task, 'id'>>) => void
   deleteTask: (taskId: string) => void

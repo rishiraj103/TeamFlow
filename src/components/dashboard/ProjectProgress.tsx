@@ -3,6 +3,7 @@ import type { Project } from '../../types'
 import { formatProjectDate } from '../../utils/projectDate'
 import { Badge } from '../common/Badge'
 import { Card } from '../common/Card'
+import { EmptyState } from '../common/EmptyState'
 
 export interface ProjectProgressProps {
   projects: Project[]
@@ -43,7 +44,11 @@ export function ProjectProgress({ projects }: ProjectProgressProps) {
           ))}
         </ul>
       ) : (
-        <p className="text-muted-strong mb-0">No projects are available yet.</p>
+        <EmptyState
+          title="No projects yet."
+          description="Project progress will appear here when your workspace has projects."
+          className="dashboard-empty-state"
+        />
       )}
     </Card>
   )

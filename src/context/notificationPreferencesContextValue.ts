@@ -3,6 +3,8 @@ import type { NotificationPreferences } from '../types'
 
 export interface NotificationPreferencesContextValue {
   notificationPreferences: NotificationPreferences
+  error: string | null
+  retryPersistence: () => void
   setNotificationPreferences: (preferences: NotificationPreferences) => void
   updateNotificationPreferences: (updates: Partial<NotificationPreferences>) => void
 }

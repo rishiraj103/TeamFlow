@@ -3,6 +3,9 @@ import { ProjectProgress } from '../components/dashboard/ProjectProgress'
 import { StatCard } from '../components/dashboard/StatCard'
 import { TaskDistribution } from '../components/dashboard/TaskDistribution'
 import { UpcomingDeadlines } from '../components/dashboard/UpcomingDeadlines'
+import { Button } from '../components/common/Button'
+import { ErrorState } from '../components/common/ErrorState'
+import { LoadingState } from '../components/common/LoadingState'
 import { useProjects } from '../context/useProjects'
 import { useTasks } from '../context/useTasks'
 import { useActivities } from '../context/useActivities'
@@ -10,13 +13,42 @@ import { useAuth } from '../context/useAuth'
 import { users } from '../data/users'
 
 export function Dashboard() {
-  const { projects } = useProjects()
-  const { tasks } = useTasks()
-  const { activities } = useActivities()
+  const {
+    projects,
+    isLoading: projectsLoading,
+    error: projectsError,
+    retryPersistence: retryProjects,
+  } = useProjects()
+  const {
+    tasks,
+    isLoading: tasksLoading,
+    error: tasksError,
+    retryPersistence: retryTasks,
+  } = useTasks()
+  const {
+    activities,
+    isLoading: activitiesLoading,
+    error: activitiesError,
+    retryPersistence: retryActivities,
+  } = useActivities()
   const { currentUser } = useAuth()
 
   const activeProjects = projects.filter((project) => project.status === 'active').length
   const completedTasks = tasks.filter((task) => task.status === 'completed').length
+  const isLoading = projectsLoading || tasksLoading || activitiesLoading
+  const persistenceErrors = [projectsError, tasksError, activitiesError].filter(
+    (message): message is string => message !== null,
+  )
+
+  function retryAllPersistence() {
+    retryProjects()
+    retryTasks()
+    retryActivities()
+  }
+
+  if (isLoading) {
+    return <LoadingState label="Loading workspace overview..." />
+  }
 
   return (
     <div className="dashboard-page">
@@ -27,6 +59,19 @@ export function Dashboard() {
           A live view of projects, tasks, and the latest activity across TeamFlow.
         </p>
       </header>
+
+      {persistenceErrors.length > 0 ? (
+        <ErrorState
+          title="Some workspace data needs attention"
+          description={persistenceErrors.join(' ')}
+          action={
+            <Button variant="outline" onClick={retryAllPersistence}>
+              Try saving again
+            </Button>
+          }
+          className="mb-4"
+        />
+      ) : null}
 
       <section className="dashboard-page__stats" aria-label="Workspace statistics">
         <StatCard

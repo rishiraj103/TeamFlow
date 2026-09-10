@@ -1,4 +1,6 @@
+import { Button } from '../components/common/Button'
 import { Card } from '../components/common/Card'
+import { ErrorState } from '../components/common/ErrorState'
 import { useNotificationPreferences } from '../context/useNotificationPreferences'
 import { useTheme } from '../context/useTheme'
 import type { NotificationPreferences, ThemeMode } from '../types'
@@ -75,8 +77,21 @@ function PreferenceToggle({ id, label, description, checked, onChange }: Prefere
 }
 
 export function Settings() {
-  const { currentTheme, setTheme } = useTheme()
-  const { notificationPreferences, updateNotificationPreferences } = useNotificationPreferences()
+  const { currentTheme, error: themeError, retryPersistence: retryTheme, setTheme } = useTheme()
+  const {
+    notificationPreferences,
+    error: notificationError,
+    retryPersistence: retryNotifications,
+    updateNotificationPreferences,
+  } = useNotificationPreferences()
+  const preferenceError = [themeError, notificationError].find(
+    (message): message is string => message !== null,
+  )
+
+  function retryPreferencePersistence() {
+    retryTheme()
+    retryNotifications()
+  }
 
   return (
     <div className="settings-page">
@@ -87,6 +102,19 @@ export function Settings() {
           Customize how TeamFlow looks and which workspace updates you receive.
         </p>
       </header>
+
+      {preferenceError ? (
+        <ErrorState
+          title="Preferences need attention"
+          description={preferenceError}
+          action={
+            <Button variant="outline" onClick={retryPreferencePersistence}>
+              Try saving again
+            </Button>
+          }
+          className="mb-4"
+        />
+      ) : null}
 
       <div className="settings-page__grid">
         <Card

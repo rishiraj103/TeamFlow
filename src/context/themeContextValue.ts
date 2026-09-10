@@ -3,6 +3,8 @@ import type { ThemeMode } from '../types'
 
 export interface ThemeContextValue {
   currentTheme: ThemeMode
+  error: string | null
+  retryPersistence: () => void
   setTheme: (theme: ThemeMode) => void
   toggleTheme: () => void
 }

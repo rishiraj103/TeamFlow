@@ -2,6 +2,7 @@ import type { Project, Task, User } from '../../types'
 import { formatProjectDate, getProjectDateTimestamp } from '../../utils/projectDate'
 import { Badge } from '../common/Badge'
 import { Card } from '../common/Card'
+import { EmptyState } from '../common/EmptyState'
 
 export interface UpcomingDeadlinesProps {
   tasks: Task[]
@@ -49,7 +50,11 @@ export function UpcomingDeadlines({ tasks, projects, users, limit = 5 }: Upcomin
           })}
         </ol>
       ) : (
-        <p className="text-muted-strong mb-0">No incomplete tasks have upcoming deadlines.</p>
+        <EmptyState
+          title="No upcoming deadlines."
+          description="Incomplete tasks with due dates will appear here when they are available."
+          className="dashboard-empty-state"
+        />
       )}
     </Card>
   )

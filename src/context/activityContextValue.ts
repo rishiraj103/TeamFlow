@@ -4,6 +4,9 @@ import type { ActivityDetails } from '../services/activity'
 
 export interface ActivityContextValue {
   activities: Activity[]
+  isLoading: boolean
+  error: string | null
+  retryPersistence: () => void
   recordActivity: (details: ActivityDetails) => void
 }
 

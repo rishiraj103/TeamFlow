@@ -1,6 +1,8 @@
 import { useMemo, useState } from 'react'
 import { Button } from '../components/common/Button'
 import { EmptyState } from '../components/common/EmptyState'
+import { ErrorState } from '../components/common/ErrorState'
+import { LoadingState } from '../components/common/LoadingState'
 import { Modal } from '../components/common/Modal'
 import { TaskCard } from '../components/tasks/TaskCard'
 import { TaskDeleteModal } from '../components/tasks/TaskDeleteModal'
@@ -18,8 +20,22 @@ type TaskFormMode = { type: 'create' } | { type: 'edit'; task: Task } | null
 const formId = 'task-form'
 
 export function Tasks() {
-  const { tasks, createTask, updateTask, deleteTask, updateTaskStatus } = useTasks()
-  const { projects } = useProjects()
+  const {
+    tasks,
+    isLoading,
+    error,
+    retryPersistence,
+    createTask,
+    updateTask,
+    deleteTask,
+    updateTaskStatus,
+  } = useTasks()
+  const {
+    projects,
+    isLoading: projectsLoading,
+    error: projectsError,
+    retryPersistence: retryProjects,
+  } = useProjects()
   const [formMode, setFormMode] = useState<TaskFormMode>(null)
   const [deleteTarget, setDeleteTarget] = useState<Task | null>(null)
   const [filters, setFilters] = useState<TaskFilterState>(() => ({ ...DEFAULT_TASK_FILTERS }))
@@ -57,6 +73,17 @@ export function Tasks() {
   const formSubmitLabel = formMode?.type === 'edit' ? 'Save changes' : 'Create task'
   const formInitialValues = formMode?.type === 'edit' ? formMode.task : undefined
   const taskCountLabel = `${tasks.length} ${tasks.length === 1 ? 'task' : 'tasks'}`
+  const isDataLoading = isLoading || projectsLoading
+  const dataError = [error, projectsError].find((message): message is string => message !== null)
+
+  function retryTaskDataPersistence() {
+    retryPersistence()
+    retryProjects()
+  }
+
+  if (isDataLoading) {
+    return <LoadingState label="Loading tasks..." />
+  }
 
   return (
     <div className="tasks-page">
@@ -70,6 +97,19 @@ export function Tasks() {
           <span aria-hidden="true">+</span> Create Task
         </Button>
       </header>
+
+      {dataError ? (
+        <ErrorState
+          title="Task data needs attention"
+          description={dataError}
+          action={
+            <Button variant="outline" onClick={retryTaskDataPersistence}>
+              Try saving again
+            </Button>
+          }
+          className="mb-4"
+        />
+      ) : null}
 
       <TaskFilters
         filters={filters}

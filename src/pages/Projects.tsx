@@ -1,7 +1,9 @@
 import { useMemo, useState } from 'react'
 import { Button } from '../components/common/Button'
 import { EmptyState } from '../components/common/EmptyState'
+import { ErrorState } from '../components/common/ErrorState'
 import { Input } from '../components/common/Input'
+import { LoadingState } from '../components/common/LoadingState'
 import { Modal } from '../components/common/Modal'
 import { Select, type SelectOption } from '../components/common/Select'
 import { ProjectCard } from '../components/projects/ProjectCard'
@@ -24,7 +26,15 @@ const statusFilterOptions: SelectOption[] = [
 const formId = 'project-form'
 
 export function Projects() {
-  const { projects, createProject, updateProject, deleteProject } = useProjects()
+  const {
+    projects,
+    isLoading,
+    error,
+    retryPersistence,
+    createProject,
+    updateProject,
+    deleteProject,
+  } = useProjects()
   const [search, setSearch] = useState('')
   const [status, setStatus] = useState<ProjectStatusFilter>('all')
   const [formMode, setFormMode] = useState<ProjectFormMode>(null)
@@ -84,6 +94,10 @@ export function Projects() {
   const formInitialValues = formMode?.type === 'edit' ? formMode.project : undefined
   const projectCountLabel = `${projects.length} ${projects.length === 1 ? 'project' : 'projects'}`
 
+  if (isLoading) {
+    return <LoadingState label="Loading projects..." />
+  }
+
   return (
     <div className="projects-page">
       <header className="projects-page__header d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
@@ -98,6 +112,19 @@ export function Projects() {
           <span aria-hidden="true">+</span> New Project
         </Button>
       </header>
+
+      {error ? (
+        <ErrorState
+          title="Project data needs attention"
+          description={error}
+          action={
+            <Button variant="outline" onClick={retryPersistence}>
+              Try saving again
+            </Button>
+          }
+          className="mb-4"
+        />
+      ) : null}
 
       <section className="projects-page__filters" aria-label="Project filters">
         <div className="row align-items-end g-3 mb-4">

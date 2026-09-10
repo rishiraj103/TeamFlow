@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { useCallback, useMemo, useState, type ReactNode } from 'react'
 import { STORAGE_KEYS } from '../constants/storage'
 import { activities as seedActivities } from '../data/activities'
 import {
@@ -16,28 +16,48 @@ export interface ActivityProviderProps {
   children: ReactNode
 }
 
-function readInitialActivities() {
-  const savedActivities = getItem(STORAGE_KEYS.activities, isActivityArray)
+interface InitialActivitiesState {
+  activities: typeof seedActivities
+  error: string | null
+}
+
+function readInitialActivitiesState(): InitialActivitiesState {
+  let loadIssue: string | null = null
+  const savedActivities = getItem(STORAGE_KEYS.activities, isActivityArray, (issue) => {
+    loadIssue ??= issue.message
+  })
 
   if (savedActivities !== null) {
-    return sortActivitiesByNewest(savedActivities).slice(0, MAX_ACTIVITY_HISTORY)
+    return {
+      activities: sortActivitiesByNewest(savedActivities).slice(0, MAX_ACTIVITY_HISTORY),
+      error: loadIssue,
+    }
   }
 
-  return [...seedActivities]
+  return { activities: [...seedActivities], error: loadIssue }
 }
 
 export function ActivityProvider({ children }: ActivityProviderProps) {
   const { currentUser } = useAuth()
-  const [activities, setActivities] = useState(readInitialActivities)
-  const initialActivities = useRef(activities)
+  const [initialState] = useState<InitialActivitiesState>(readInitialActivitiesState)
+  const [activities, setActivities] = useState<typeof seedActivities>(initialState.activities)
+  const [error, setError] = useState<string | null>(initialState.error)
+  const isLoading = false
 
-  useEffect(() => {
-    if (activities === initialActivities.current) {
+  const persistActivities = useCallback((nextActivities: typeof seedActivities) => {
+    if (!setItem(STORAGE_KEYS.activities, nextActivities)) {
+      setError(
+        `We couldn't save data for ${STORAGE_KEYS.activities}. Your latest changes are currently in memory only.`,
+      )
       return
     }
 
-    setItem(STORAGE_KEYS.activities, activities)
-  }, [activities])
+    setError(null)
+  }, [])
+
+  const retryPersistence = useCallback(() => {
+    persistActivities(activities)
+  }, [activities, persistActivities])
 
   const recordActivity = useCallback(
     (details: ActivityDetails) => {
@@ -47,16 +67,16 @@ export function ActivityProvider({ children }: ActivityProviderProps) {
       }
 
       const newActivity = createActivity(currentUser.id, details, activities)
-      setActivities((currentActivities) =>
-        [newActivity, ...currentActivities].slice(0, MAX_ACTIVITY_HISTORY),
-      )
+      const nextActivities = [newActivity, ...activities].slice(0, MAX_ACTIVITY_HISTORY)
+      setActivities(nextActivities)
+      persistActivities(nextActivities)
     },
-    [activities, currentUser],
+    [activities, currentUser, persistActivities],
   )
 
   const value = useMemo<ActivityContextValue>(
-    () => ({ activities, recordActivity }),
-    [activities, recordActivity],
+    () => ({ activities, isLoading, error, retryPersistence, recordActivity }),
+    [activities, error, isLoading, recordActivity, retryPersistence],
   )
 
   return <ActivityContext.Provider value={value}>{children}</ActivityContext.Provider>
