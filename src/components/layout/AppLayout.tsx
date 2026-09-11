@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { Suspense, useState, type ReactNode } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { DEMO_USER } from '../../constants/auth'
+import { RouteLoadingFallback } from '../common/RouteLoadingFallback'
 import { useAuth } from '../../context/useAuth'
 import type { AuthUser } from '../../types/auth'
 import { MobileNavigation } from './MobileNavigation'
@@ -44,7 +45,9 @@ export function AppLayout({ pageTitle, pageEyebrow, notificationCount = 0 }: App
 
         <main className="app-layout__content">
           <div className="container-fluid app-layout__container">
-            <Outlet />
+            <RouteLoadingBoundary>
+              <Outlet />
+            </RouteLoadingBoundary>
           </div>
         </main>
       </div>
@@ -57,4 +60,8 @@ export function AppLayout({ pageTitle, pageEyebrow, notificationCount = 0 }: App
       />
     </div>
   )
+}
+
+function RouteLoadingBoundary({ children }: { children: ReactNode }) {
+  return <Suspense fallback={<RouteLoadingFallback />}>{children}</Suspense>
 }
