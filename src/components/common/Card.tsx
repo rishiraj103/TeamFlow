@@ -15,7 +15,7 @@ export function Card({ title, subtitle, headerAction, children, className }: Car
   return (
     <section className={classNames} aria-labelledby={titleId}>
       <header className="card-header tf-card__header d-flex align-items-start justify-content-between gap-3">
-        <div>
+        <div className="tf-card__header-copy">
           <h2 id={titleId} className="tf-card__title">
             {title}
           </h2>

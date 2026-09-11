@@ -24,7 +24,11 @@ export function TaskCard({
   onStatusChange,
 }: TaskCardProps) {
   return (
-    <Card title={task.title} subtitle={task.description} className="task-card h-100">
+    <Card
+      title={task.title}
+      subtitle={task.description}
+      className="task-card tf-card--interactive h-100"
+    >
       <div className="task-card__body">
         <div className="task-card__badges">
           <Badge variant={task.status} />

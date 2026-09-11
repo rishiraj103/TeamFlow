@@ -20,7 +20,7 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
         </Link>
       }
       subtitle={project.description}
-      className="project-card h-100"
+      className="project-card tf-card--interactive h-100"
     >
       <div className="project-card__body">
         <div className="project-card__progress-summary d-flex align-items-center justify-content-between gap-3">

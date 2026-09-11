@@ -9,6 +9,12 @@
   --tf-text-subtle: #8b96aa;
   --tf-border-color: #dce3ee;
   --tf-muted-soft-bg: rgba(99, 112, 138, 0.13);
+  --tf-info-text: #1d638a;
+  --tf-info-soft-bg: #e9f6fb;
+  --tf-info-border-color: #b9deeb;
+  --tf-danger-text: #a3323d;
+  --tf-danger-soft-bg: #fcecee;
+  --tf-danger-border-color: #efb8be;
   --bs-body-bg: var(--tf-body-bg);
   --bs-body-color: var(--tf-body-color);
   --bs-body-color-rgb: 23, 32, 51;
@@ -20,6 +26,10 @@
   --bs-card-border-color: var(--tf-border-color);
   --bs-card-cap-bg: var(--tf-surface);
   --bs-card-color: var(--tf-body-color);
+  --bs-link-color: #536bff;
+  --bs-link-hover-color: #4358dd;
+  --bs-link-color-rgb: 83, 107, 255;
+  --bs-link-hover-color-rgb: 67, 88, 221;
   --bs-modal-bg: var(--tf-surface);
   --bs-modal-color: var(--tf-body-color);
   --bs-modal-border-color: var(--tf-border-color);
@@ -35,6 +45,12 @@
   --tf-text-subtle: #8796ae;
   --tf-border-color: #34445f;
   --tf-muted-soft-bg: rgba(170, 183, 204, 0.16);
+  --tf-info-text: #a9ddf4;
+  --tf-info-soft-bg: rgba(59, 158, 219, 0.16);
+  --tf-info-border-color: rgba(120, 203, 238, 0.4);
+  --tf-danger-text: #ffadb5;
+  --tf-danger-soft-bg: rgba(217, 93, 103, 0.18);
+  --tf-danger-border-color: rgba(255, 173, 181, 0.42);
   --bs-body-bg: var(--tf-body-bg);
   --bs-body-color: var(--tf-body-color);
   --bs-body-color-rgb: 232, 237, 247;
@@ -46,6 +62,10 @@
   --bs-card-border-color: var(--tf-border-color);
   --bs-card-cap-bg: var(--tf-surface);
   --bs-card-color: var(--tf-body-color);
+  --bs-link-color: #91a0ff;
+  --bs-link-hover-color: #b5beff;
+  --bs-link-color-rgb: 145, 160, 255;
+  --bs-link-hover-color-rgb: 181, 190, 255;
   --bs-modal-bg: var(--tf-surface);
   --bs-modal-color: var(--tf-body-color);
   --bs-modal-border-color: var(--tf-border-color);
@@ -128,6 +148,18 @@ body {
 .form-text,
 .text-muted-strong {
   color: var(--tf-text-muted) !important;
+}
+
+.alert-info {
+  --bs-alert-color: var(--tf-info-text);
+  --bs-alert-bg: var(--tf-info-soft-bg);
+  --bs-alert-border-color: var(--tf-info-border-color);
+}
+
+.alert-danger {
+  --bs-alert-color: var(--tf-danger-text);
+  --bs-alert-bg: var(--tf-danger-soft-bg);
+  --bs-alert-border-color: var(--tf-danger-border-color);
 }
 
 .text-subtle {

@@ -3,6 +3,10 @@
   overflow: hidden;
 }
 
+.tf-card__header-copy {
+  min-width: 0;
+}
+
 .tf-card--interactive {
   @include interactive-lift;
 }
@@ -24,7 +28,15 @@
 
 .tf-card__title {
   margin-bottom: 0.25rem;
+  color: var(--tf-body-color);
   font-size: 1.25rem;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.tf-card .card-subtitle {
+  line-height: 1.5;
+  overflow-wrap: anywhere;
 }
 
 .demo-panel {
@@ -64,4 +76,24 @@
 
 .empty-state__action {
   margin-top: 1.25rem;
+}
+
+.modal-content {
+  box-shadow: $box-shadow;
+}
+
+.modal-header,
+.modal-body,
+.modal-footer {
+  padding-right: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+@media (max-width: 575.98px) {
+  .modal-header,
+  .modal-body,
+  .modal-footer {
+    padding-right: 1.25rem;
+    padding-left: 1.25rem;
+  }
 }

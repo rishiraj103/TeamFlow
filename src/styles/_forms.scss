@@ -11,9 +11,30 @@
   color: var(--tf-body-color);
   background-color: var(--tf-surface);
   border-color: var(--tf-border-color);
+  border-radius: $border-radius-sm;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
 
   &:focus {
     border-color: rgba($primary, 0.6);
+    box-shadow: 0 0 0 0.2rem rgba($primary, 0.14);
+  }
+}
+
+textarea.form-control {
+  min-height: 7rem;
+  resize: vertical;
+}
+
+.form-check-input {
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+
+  &:focus {
+    border-color: rgba($primary, 0.6);
+    box-shadow: 0 0 0 0.2rem rgba($primary, 0.14);
   }
 }
 

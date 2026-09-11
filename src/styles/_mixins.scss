@@ -16,14 +16,20 @@
 
 @mixin interactive-lift {
   transition:
-    transform 180ms ease,
     box-shadow 180ms ease,
-    border-color 180ms ease;
+    border-color 180ms ease,
+    transform 180ms ease;
 
-  &:hover {
+  &:focus-within {
     border-color: rgba($primary, 0.35);
-    box-shadow: $box-shadow;
-    transform: translateY(-2px);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      border-color: rgba($primary, 0.35);
+      box-shadow: $box-shadow;
+      transform: translateY(-2px);
+    }
   }
 }
 

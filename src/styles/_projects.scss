@@ -44,6 +44,16 @@
   flex-direction: column;
 }
 
+.project-card__title-link {
+  color: var(--tf-body-color);
+  text-decoration: none;
+  @include focus-ring;
+
+  &:hover {
+    color: $primary;
+  }
+}
+
 .project-card__body {
   display: flex;
   flex: 1;
@@ -99,6 +109,11 @@
 .project-form__members option:checked {
   color: var(--tf-body-color);
   background-color: rgba($primary, 0.14);
+}
+
+.project-form__actions {
+  padding-top: 1rem;
+  border-top: 1px solid var(--tf-border-color);
 }
 
 @media (max-width: 575.98px) {
