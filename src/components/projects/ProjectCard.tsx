@@ -23,7 +23,7 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
       className="project-card h-100"
     >
       <div className="project-card__body">
-        <div className="d-flex align-items-center justify-content-between gap-3">
+        <div className="project-card__progress-summary d-flex align-items-center justify-content-between gap-3">
           <Badge variant={project.status} />
           <span className="project-card__progress-label">{project.progress}% complete</span>
         </div>

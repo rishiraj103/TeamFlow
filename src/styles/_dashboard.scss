@@ -238,4 +238,10 @@
   .dashboard-page__stats {
     grid-template-columns: minmax(0, 1fr);
   }
+
+  .project-progress__meta {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 }

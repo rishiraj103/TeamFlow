@@ -297,3 +297,23 @@
   flex: 1;
   margin-top: 2.5rem;
 }
+
+@media (max-width: 575.98px) {
+  .topbar__inner {
+    gap: 0.5rem;
+  }
+
+  .topbar__actions {
+    gap: 0.375rem;
+  }
+
+  .topbar__profile {
+    gap: 0.375rem;
+    padding-left: 0.5rem;
+  }
+
+  .topbar__logout {
+    padding-right: 0.625rem;
+    padding-left: 0.625rem;
+  }
+}

@@ -92,7 +92,9 @@ export function Modal({
     <>
       <div className="modal-backdrop fade show" aria-hidden="true" />
       <div className="modal fade show d-block" role="presentation" tabIndex={-1}>
-        <div className={`modal-dialog modal-dialog-centered ${dialogSizeClass}`.trim()}>
+        <div
+          className={`modal-dialog modal-dialog-centered modal-dialog-scrollable ${dialogSizeClass}`.trim()}
+        >
           <div
             ref={dialogRef}
             className="modal-content"
