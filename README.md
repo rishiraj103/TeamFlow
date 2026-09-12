@@ -36,7 +36,7 @@ The application is intentionally frontend-only at this stage. It demonstrates a 
 - React Testing Library: user-facing component and workflow tests.
 - `@testing-library/user-event`: realistic keyboard and pointer interaction in tests.
 - `localStorage`: browser persistence for the frontend-only demo state.
-- Vercel: intended static hosting target for the Vite production output; no Vercel configuration or CI pipeline is committed in this repository.
+- Vercel: static hosting target for the Vite production output; `vercel.json` provides the SPA fallback, and no CI/CD pipeline is committed in this repository.
 
 ## Architecture
 
@@ -160,7 +160,7 @@ Responsive rules are defined for the project review widths of 320px, 375px, 414p
 
 On desktop, the sidebar remains visible and the main content scrolls inside the application shell. At mobile widths below the medium breakpoint, the desktop sidebar is hidden, the topbar exposes the mobile navigation trigger, and the content uses the full available width. Cards, forms, analytics sections, project details, and filters collapse into readable single-column layouts as space narrows.
 
-These are the supported responsive targets. A connected browser was unavailable during this documentation pass, so a final visual sign-off at each width is still required.
+These are the supported responsive targets. A local browser pass verified route rendering, authentication redirects, persistence, console output, and no horizontal overflow at representative widths from 320px through 1440px. Full visual sign-off across every page and width remains a manual review item.
 
 ## Screenshots
 
@@ -224,14 +224,14 @@ The local `PROJECT_CHECKLIST.md` is intentionally ignored and is used only as a 
 
 ## Deployment
 
-The intended deployment target is Vercel. The repository does not currently contain a Vercel project configuration or CI/CD workflow. For a manual deployment:
+The deployment target is Vercel. The repository includes `vercel.json` for client-side route fallback and does not include a CI/CD workflow. For a manual deployment:
 
 1. Import `https://github.com/rishiraj103/TeamFlow` into Vercel.
 2. Select Vite, or configure the build command as `npm run build`.
 3. Use `dist` as the output directory if Vercel does not detect it automatically.
 4. Deploy and verify the root redirect, authentication flow, all application routes, and deep-link refresh behavior.
 
-Because TeamFlow is a client-side routed SPA, configure a Vercel rewrite to serve `index.html` for application routes if deep-link refreshes are not handled automatically by the project settings. No deployment is claimed as complete from this repository.
+Because TeamFlow is a client-side routed SPA, `vercel.json` rewrites application routes to `index.html` so deep-link refreshes can be handled by React Router. A deployment was created during the deployment audit, but it currently requires Vercel project re-authentication/protection access and is not listed as a public live demo until the deployed application can be verified.
 
 ## Limitations
 
