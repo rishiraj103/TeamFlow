@@ -1,0 +1,141 @@
+.tasks-page__title {
+  margin-bottom: 0.375rem;
+  color: $body-color;
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  letter-spacing: -0.04em;
+}
+
+.tasks-page__result-summary {
+  color: $text-muted;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.task-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.task-card .tf-card__header {
+  min-height: 9.5rem;
+}
+
+.task-card .tf-card__title,
+.task-card .card-subtitle {
+  overflow-wrap: anywhere;
+}
+
+.task-card .card-subtitle {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.task-card .tf-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.task-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.task-card__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.task-card__details {
+  display: grid;
+  gap: 0.875rem;
+  margin-bottom: 1.25rem;
+}
+
+.task-card__details div {
+  min-width: 0;
+}
+
+.task-card__details dt,
+.task-card__assignee-label {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: $text-subtle;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.task-card__details dd {
+  margin-bottom: 0;
+  color: $body-color;
+  font-size: 0.875rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.task-card__assignee {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  padding: 0.875rem 0;
+  border-top: 1px solid $border-color;
+  border-bottom: 1px solid $border-color;
+}
+
+.task-card__assignee img,
+.task-card__assignee-placeholder {
+  display: grid;
+  flex: 0 0 2.25rem;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  color: $primary;
+  background-color: rgba($primary, 0.1);
+  border-radius: 50%;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.task-card__assignee > div {
+  display: grid;
+  min-width: 0;
+}
+
+.task-card__assignee strong {
+  color: $body-color;
+  font-size: 0.875rem;
+  overflow-wrap: anywhere;
+}
+
+.task-card__status-control {
+  margin-top: 1.25rem;
+}
+
+.task-card__status-control .form-label {
+  margin-bottom: 0.375rem;
+  font-size: 0.75rem;
+}
+
+.task-card__actions .btn {
+  min-width: 4.5rem;
+}
+
+.task-form__actions {
+  padding-top: 1rem;
+  border-top: 1px solid $border-color;
+}
+
+@media (max-width: 575.98px) {
+  .task-card__actions .btn {
+    flex: 1 1 auto;
+  }
+}

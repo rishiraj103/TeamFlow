@@ -7,11 +7,11 @@ import { Modal } from '../components/common/Modal'
 import { ProjectDeleteModal } from '../components/projects/ProjectDeleteModal'
 import { ProjectForm } from '../components/projects/ProjectForm'
 import { useProjects } from '../context/useProjects'
+import { useTasks } from '../context/useTasks'
 import { activities } from '../data/activities'
-import { tasks } from '../data/tasks'
 import { users } from '../data/users'
 import type { ProjectDraft } from '../context/projectContextValue'
-import type { ProjectStatus, User } from '../types'
+import type { ProjectStatus, Task, User } from '../types'
 import { formatProjectDate, formatProjectDateTime } from '../utils/projectDate'
 
 const tabs = [
@@ -94,9 +94,7 @@ function ProjectOverview({
   )
 }
 
-function ProjectTasks({ projectId }: { projectId: string }) {
-  const projectTasks = tasks.filter((task) => task.projectId === projectId)
-
+function ProjectTasks({ projectTasks }: { projectTasks: Task[] }) {
   return (
     <Card
       title="Project tasks"
@@ -198,6 +196,7 @@ export function ProjectDetails() {
   const { projectId } = useParams<{ projectId: string }>()
   const navigate = useNavigate()
   const { projects, updateProject, deleteProject } = useProjects()
+  const { tasks } = useTasks()
   const [activeTab, setActiveTab] = useState<ProjectDetailsTab>('overview')
   const [editOpen, setEditOpen] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
@@ -345,7 +344,7 @@ export function ProjectDetails() {
             memberCount={currentProject.memberIds.length}
           />
         ) : null}
-        {activeTab === 'tasks' ? <ProjectTasks projectId={currentProject.id} /> : null}
+        {activeTab === 'tasks' ? <ProjectTasks projectTasks={relatedTasks} /> : null}
         {activeTab === 'members' ? <ProjectMembers memberIds={currentProject.memberIds} /> : null}
         {activeTab === 'activity' ? <ProjectActivity projectId={currentProject.id} /> : null}
       </div>
