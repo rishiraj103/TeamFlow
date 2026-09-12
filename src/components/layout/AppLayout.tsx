@@ -1,41 +1,35 @@
 import { useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
+import { DEMO_USER } from '../../constants/auth'
+import { useAuth } from '../../context/useAuth'
+import type { AuthUser } from '../../types/auth'
 import { MobileNavigation } from './MobileNavigation'
 import { Sidebar } from './Sidebar'
 import { Topbar } from './Topbar'
 
-export interface LayoutUser {
-  name: string
-  email: string
-  role: string
-  initials: string
-}
+export type LayoutUser = AuthUser
 
 export interface AppLayoutProps {
   pageTitle: string
   pageEyebrow?: string
-  currentUser?: LayoutUser
   notificationCount?: number
 }
 
-const defaultUser: LayoutUser = {
-  name: 'Alex Morgan',
-  email: 'alex@teamflow.app',
-  role: 'Product designer',
-  initials: 'AM',
-}
-
-export function AppLayout({
-  pageTitle,
-  pageEyebrow,
-  currentUser = defaultUser,
-  notificationCount = 0,
-}: AppLayoutProps) {
+export function AppLayout({ pageTitle, pageEyebrow, notificationCount = 0 }: AppLayoutProps) {
   const [mobileNavigationOpen, setMobileNavigationOpen] = useState(false)
+  const { currentUser: authenticatedUser, logout } = useAuth()
+  const navigate = useNavigate()
+  const currentUser = authenticatedUser ?? DEMO_USER
+
+  function handleLogout() {
+    logout()
+    setMobileNavigationOpen(false)
+    navigate('/login', { replace: true })
+  }
 
   return (
     <div className="app-layout">
-      <Sidebar currentUser={currentUser} />
+      <Sidebar currentUser={currentUser} onLogout={handleLogout} />
 
       <div className="app-layout__main">
         <Topbar
@@ -45,6 +39,7 @@ export function AppLayout({
           currentUser={currentUser}
           mobileNavigationOpen={mobileNavigationOpen}
           onMobileNavigationToggle={() => setMobileNavigationOpen((isOpen) => !isOpen)}
+          onLogout={handleLogout}
         />
 
         <main className="app-layout__content">
@@ -58,6 +53,7 @@ export function AppLayout({
         open={mobileNavigationOpen}
         currentUser={currentUser}
         onClose={() => setMobileNavigationOpen(false)}
+        onLogout={handleLogout}
       />
     </div>
   )
