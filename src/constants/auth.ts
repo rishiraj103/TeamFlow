@@ -11,7 +11,8 @@ export const DEMO_USER: AuthUser = {
   id: 'demo-user',
   name: 'Demo User',
   email: 'demo@teamflow.app',
-  role: 'Demo account',
+  role: 'Demo Account',
+  avatar: 'https://api.dicebear.com/9.x/initials/svg?seed=Demo%20User&backgroundColor=5b5bd6',
   initials: 'DU',
 }
 
