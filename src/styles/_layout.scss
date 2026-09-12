@@ -2,6 +2,30 @@
   min-height: 100vh;
 }
 
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-color: $body-bg;
+}
+
+.app-layout__main {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.app-layout__content {
+  min-height: calc(100vh - 4.5rem);
+  padding: 2rem 0;
+}
+
+.app-layout__container {
+  width: 100%;
+  max-width: 100%;
+  padding-right: 1.5rem;
+  padding-left: 1.5rem;
+}
+
 .app-shell {
   min-height: 100vh;
   background-color: $body-bg;
