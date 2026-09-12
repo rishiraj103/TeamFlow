@@ -1,40 +1,41 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AppLayout } from './components/layout/AppLayout'
-import { Card } from './components/common/Card'
-
-function LayoutPreview() {
-  return (
-    <div className="row justify-content-center">
-      <div className="col-12 col-xxl-9">
-        <Card
-          title="TeamFlow Application"
-          subtitle="The application shell is ready for the feature pages that will arrive in later phases."
-        >
-          <p className="text-muted-strong mb-0">
-            This temporary content is rendered inside the shared AppLayout outlet. The sidebar,
-            topbar, and mobile navigation are now available to every nested route.
-          </p>
-        </Card>
-      </div>
-    </div>
-  )
-}
+import { Analytics } from './pages/Analytics'
+import { Dashboard } from './pages/Dashboard'
+import { Login } from './pages/Login'
+import { NotFound } from './pages/NotFound'
+import { ProjectDetails } from './pages/ProjectDetails'
+import { Projects } from './pages/Projects'
+import { Settings } from './pages/Settings'
+import { Tasks } from './pages/Tasks'
+import { Team } from './pages/Team'
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/login" element={<Login />} />
+
         <Route
           element={
             <AppLayout
-              pageTitle="Application shell"
-              pageEyebrow="TeamFlow workspace"
+              pageTitle="TeamFlow workspace"
+              pageEyebrow="Application"
               notificationCount={3}
             />
           }
         >
-          <Route path="*" element={<LayoutPreview />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="projects" element={<Projects />} />
+          <Route path="projects/:projectId" element={<ProjectDetails />} />
+          <Route path="tasks" element={<Tasks />} />
+          <Route path="team" element={<Team />} />
+          <Route path="analytics" element={<Analytics />} />
+          <Route path="settings" element={<Settings />} />
         </Route>
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   )

@@ -73,11 +73,10 @@ export function NavigationIconGlyph({ icon }: NavigationIconProps) {
 }
 
 export interface SidebarProps {
-  activeRoute: string
   currentUser: LayoutUser
 }
 
-export function Sidebar({ activeRoute, currentUser }: SidebarProps) {
+export function Sidebar({ currentUser }: SidebarProps) {
   return (
     <aside className="sidebar" aria-label="Primary sidebar">
       <Link to="/" className="sidebar__brand" aria-label="TeamFlow home">
@@ -89,27 +88,20 @@ export function Sidebar({ activeRoute, currentUser }: SidebarProps) {
 
       <nav className="sidebar__nav" aria-label="Primary navigation">
         <ul className="sidebar__nav-list">
-          {navigationItems.map((item) => {
-            const isActive =
-              activeRoute === item.href || (activeRoute === '/' && item.href === '/dashboard')
-
-            return (
-              <li key={item.href} className="sidebar__nav-item">
-                <NavLink
-                  to={item.href}
-                  className={({ isActive: routeIsActive }) =>
-                    `sidebar__nav-link${routeIsActive || isActive ? ' is-active' : ''}`
-                  }
-                  aria-current={isActive ? 'page' : undefined}
-                >
-                  <span className="sidebar__nav-icon">
-                    <NavigationIconGlyph icon={item.icon} />
-                  </span>
-                  <span>{item.label}</span>
-                </NavLink>
-              </li>
-            )
-          })}
+          {navigationItems.map((item) => (
+            <li key={item.href} className="sidebar__nav-item">
+              <NavLink
+                to={item.href}
+                className={({ isActive }) => `sidebar__nav-link${isActive ? ' is-active' : ''}`}
+                end={item.href === '/dashboard'}
+              >
+                <span className="sidebar__nav-icon">
+                  <NavigationIconGlyph icon={item.icon} />
+                </span>
+                <span>{item.label}</span>
+              </NavLink>
+            </li>
+          ))}
         </ul>
       </nav>
 
