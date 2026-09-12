@@ -1,0 +1,27 @@
+.form-label {
+  margin-bottom: 0.5rem;
+  color: $body-color;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.form-control,
+.form-select {
+  min-height: 2.75rem;
+  color: $body-color;
+  background-color: $surface;
+  border-color: $border-color;
+
+  &:focus {
+    border-color: rgba($primary, 0.6);
+  }
+}
+
+.form-control::placeholder {
+  color: $text-subtle;
+}
+
+.form-text {
+  color: $text-muted;
+  font-size: 0.8125rem;
+}
