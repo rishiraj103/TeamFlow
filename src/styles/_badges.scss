@@ -26,6 +26,16 @@
   background-color: rgba($text-muted, 0.13);
 }
 
+.status-badge--todo {
+  color: darken($secondary, 18%);
+  background-color: rgba($secondary, 0.13);
+}
+
+.status-badge--in-progress {
+  color: darken($primary, 18%);
+  background-color: rgba($primary, 0.13);
+}
+
 .priority-badge--high {
   color: darken($danger, 18%);
   background-color: rgba($danger, 0.13);

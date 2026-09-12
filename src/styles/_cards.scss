@@ -34,3 +34,34 @@
   border: 1px solid $border-color;
   border-radius: $border-radius-sm;
 }
+
+.empty-state {
+  @include surface($box-shadow-sm);
+  padding: 2rem 1.5rem;
+}
+
+.empty-state__icon {
+  display: inline-grid;
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 1rem;
+  color: $primary;
+  background-color: rgba($primary, 0.1);
+  border-radius: 50%;
+  place-items: center;
+}
+
+.empty-state__title {
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.empty-state__description {
+  max-width: 30rem;
+  margin: 0 auto;
+  color: $text-muted;
+}
+
+.empty-state__action {
+  margin-top: 1.25rem;
+}
