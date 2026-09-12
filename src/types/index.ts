@@ -61,7 +61,8 @@ export interface AuthState {
   isInitializing: boolean
 }
 
-export type ThemePreference = 'light' | 'dark' | 'system'
+export type ThemeMode = 'light' | 'dark'
+export type ThemePreference = ThemeMode | 'system'
 
 export interface NotificationPreferences {
   email: boolean
