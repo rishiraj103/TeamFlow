@@ -1,15 +1,17 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Button } from '../components/common/Button'
 import { EmptyState } from '../components/common/EmptyState'
 import { Modal } from '../components/common/Modal'
 import { TaskCard } from '../components/tasks/TaskCard'
 import { TaskDeleteModal } from '../components/tasks/TaskDeleteModal'
+import { TaskFilters } from '../components/tasks/TaskFilters'
 import { TaskForm } from '../components/tasks/TaskForm'
 import type { TaskDraft } from '../context/taskContextValue'
 import { useProjects } from '../context/useProjects'
 import { useTasks } from '../context/useTasks'
 import { users } from '../data/users'
-import type { Task } from '../types'
+import type { Task, TaskFilterState } from '../types'
+import { DEFAULT_TASK_FILTERS, filterTasks } from '../utils/taskFilters'
 
 type TaskFormMode = { type: 'create' } | { type: 'edit'; task: Task } | null
 
@@ -20,6 +22,9 @@ export function Tasks() {
   const { projects } = useProjects()
   const [formMode, setFormMode] = useState<TaskFormMode>(null)
   const [deleteTarget, setDeleteTarget] = useState<Task | null>(null)
+  const [filters, setFilters] = useState<TaskFilterState>(() => ({ ...DEFAULT_TASK_FILTERS }))
+
+  const visibleTasks = useMemo(() => filterTasks(tasks, filters), [filters, tasks])
 
   function handleFormSubmit(values: TaskDraft) {
     if (formMode?.type === 'edit') {
@@ -40,6 +45,14 @@ export function Tasks() {
     setDeleteTarget(null)
   }
 
+  function updateFilters(updates: Partial<TaskFilterState>) {
+    setFilters((currentFilters) => ({ ...currentFilters, ...updates }))
+  }
+
+  function resetFilters() {
+    setFilters({ ...DEFAULT_TASK_FILTERS })
+  }
+
   const formTitle = formMode?.type === 'edit' ? 'Edit task' : 'New task'
   const formSubmitLabel = formMode?.type === 'edit' ? 'Save changes' : 'Create task'
   const formInitialValues = formMode?.type === 'edit' ? formMode.task : undefined
@@ -58,17 +71,38 @@ export function Tasks() {
         </Button>
       </header>
 
+      <TaskFilters
+        filters={filters}
+        projects={projects}
+        assignees={users}
+        onChange={updateFilters}
+        onReset={resetFilters}
+      />
+
+      <div className="tasks-page__result-summary mb-3">
+        Showing {visibleTasks.length} of {tasks.length} tasks
+      </div>
+
       {tasks.length === 0 ? (
         <EmptyState
           title="No tasks yet."
           description="Create your first task to start organizing work for your team."
           action={<Button onClick={() => setFormMode({ type: 'create' })}>Create Task</Button>}
         />
+      ) : visibleTasks.length === 0 ? (
+        <EmptyState
+          title="No tasks match your current filters."
+          description="Try a different search or reset the filters to see all tasks."
+          action={
+            <Button variant="outline" onClick={resetFilters}>
+              Reset Filters
+            </Button>
+          }
+        />
       ) : (
         <section aria-label="Task list">
-          <div className="tasks-page__result-summary mb-3">Showing {tasks.length} tasks</div>
           <div className="row g-4">
-            {tasks.map((task) => (
+            {visibleTasks.map((task) => (
               <div key={task.id} className="col-12 col-md-6 col-xxl-4">
                 <TaskCard
                   task={task}
