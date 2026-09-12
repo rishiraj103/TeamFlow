@@ -1,0 +1,112 @@
+.projects-page__title {
+  margin-bottom: 0.375rem;
+  color: $body-color;
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  letter-spacing: -0.04em;
+}
+
+.projects-page__filters {
+  padding: 1.25rem;
+  background-color: $surface-muted;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+}
+
+.projects-page__filters .field-group {
+  height: 100%;
+}
+
+.projects-page__result-summary {
+  color: $text-muted;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.project-card .tf-card__header {
+  min-height: 8.75rem;
+}
+
+.project-card .card-subtitle {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.project-card .tf-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.project-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.project-card__progress-label {
+  color: $text-muted;
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.project-card__progress .progress {
+  height: 0.5rem;
+  overflow: hidden;
+  background-color: $surface-muted;
+  border-radius: 999px;
+}
+
+.project-card__progress .progress-bar {
+  background: linear-gradient(90deg, $primary, #7b5cff);
+  border-radius: inherit;
+}
+
+.project-card__details dt {
+  margin-bottom: 0.25rem;
+  color: $text-subtle;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.project-card__details dd {
+  margin-bottom: 0;
+  color: $body-color;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.project-form__members {
+  min-height: 9rem;
+  padding: 0.5rem;
+  background-image: none;
+}
+
+.project-form__members option {
+  padding: 0.5rem;
+  border-radius: $border-radius-sm;
+}
+
+.project-form__members option:checked {
+  color: $body-color;
+  background-color: rgba($primary, 0.14);
+}
+
+@media (max-width: 575.98px) {
+  .projects-page__filters {
+    padding: 1rem;
+  }
+
+  .project-card__actions .btn {
+    flex: 1 1 auto;
+  }
+}
