@@ -109,6 +109,25 @@ export function ProjectProvider({ children }: ProjectProviderProps) {
     [persistProjects, projects, recordActivity],
   )
 
+  const syncProjectProgress = useCallback(
+    (progressByProject: Readonly<Record<string, number>>) => {
+      const nextProjects = projects.map((project) => {
+        const nextProgress = progressByProject[project.id]
+        return nextProgress === undefined || nextProgress === project.progress
+          ? project
+          : { ...project, progress: nextProgress }
+      })
+
+      if (nextProjects.every((project, index) => project === projects[index])) {
+        return
+      }
+
+      setProjects(nextProjects)
+      persistProjects(nextProjects)
+    },
+    [persistProjects, projects],
+  )
+
   const deleteProject = useCallback(
     (projectId: string) => {
       const project = projects.find((candidate) => candidate.id === projectId)
@@ -137,9 +156,19 @@ export function ProjectProvider({ children }: ProjectProviderProps) {
       retryPersistence,
       createProject,
       updateProject,
+      syncProjectProgress,
       deleteProject,
     }),
-    [createProject, deleteProject, error, isLoading, projects, retryPersistence, updateProject],
+    [
+      createProject,
+      deleteProject,
+      error,
+      isLoading,
+      projects,
+      retryPersistence,
+      syncProjectProgress,
+      updateProject,
+    ],
   )
 
   return <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>

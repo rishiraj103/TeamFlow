@@ -1,4 +1,13 @@
 .sidebar {
+  // Navigation has its own dark surface in both application themes.
+  --tf-surface: #162a32;
+  --tf-body-color: #f0f6f7;
+  --tf-text-muted: #b8cbd0;
+  --tf-text-subtle: #a3b9c1;
+  --tf-border-color: #354c55;
+  --tf-accent-text: #9ae6d7;
+  --tf-accent-soft: #24424a;
+  --tf-focus-color: #9ae6d7;
   position: relative;
   top: 0;
   z-index: $zindex-sticky;
@@ -32,7 +41,7 @@
   width: 2.25rem;
   height: 2.25rem;
   color: var(--tf-surface);
-  background: linear-gradient(135deg, $primary, #7b5cff);
+  background: $primary;
   border-radius: 0.7rem;
   place-items: center;
   font-size: 1rem;
@@ -113,8 +122,7 @@
   border-top: 1px solid var(--tf-border-color);
 }
 
-.sidebar__user-copy,
-.topbar__profile-copy {
+.sidebar__user-copy {
   display: flex;
   flex: 1;
   min-width: 0;
@@ -125,12 +133,7 @@
   width: 100%;
 }
 
-.topbar__logout {
-  white-space: nowrap;
-}
-
-.sidebar__user-copy strong,
-.topbar__profile-copy strong {
+.sidebar__user-copy strong {
   overflow: hidden;
   color: var(--tf-body-color);
   font-size: 0.8125rem;
@@ -138,8 +141,7 @@
   white-space: nowrap;
 }
 
-.sidebar__user-copy span,
-.topbar__profile-copy span {
+.sidebar__user-copy span {
   overflow: hidden;
   color: var(--tf-text-subtle);
   font-size: 0.75rem;
@@ -152,8 +154,8 @@
   flex: 0 0 2.25rem;
   width: 2.25rem;
   height: 2.25rem;
-  color: $primary;
-  background-color: rgba($primary, 0.12);
+  color: var(--tf-accent-text);
+  background-color: var(--tf-accent-soft);
   border-radius: 50%;
   place-items: center;
   font-size: 0.75rem;
@@ -185,16 +187,6 @@
   min-width: 0;
 }
 
-.topbar__eyebrow {
-  margin: 0 0 0.125rem;
-  color: var(--tf-text-subtle);
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  line-height: 1.2;
-  text-transform: uppercase;
-}
-
 .topbar__title {
   overflow: hidden;
   margin: 0;
@@ -205,8 +197,7 @@
   white-space: nowrap;
 }
 
-.topbar__actions,
-.topbar__profile {
+.topbar__actions {
   display: flex;
   align-items: center;
 }
@@ -226,6 +217,17 @@
   }
 }
 
+.topbar__theme-toggle {
+  color: var(--tf-text-muted);
+  border: 1px solid transparent;
+
+  &:hover {
+    color: var(--tf-accent-text);
+    background-color: var(--tf-accent-soft);
+    border-color: var(--tf-border-color);
+  }
+}
+
 .topbar__notification-count {
   position: absolute;
   top: 0.125rem;
@@ -242,12 +244,6 @@
   font-size: 0.5625rem;
   font-weight: 800;
   line-height: 1;
-}
-
-.topbar__profile {
-  gap: 0.625rem;
-  padding-left: 0.75rem;
-  border-left: 1px solid var(--tf-border-color);
 }
 
 .topbar__menu-toggle {
@@ -317,15 +313,5 @@
 
   .topbar__actions {
     gap: 0.375rem;
-  }
-
-  .topbar__profile {
-    gap: 0.375rem;
-    padding-left: 0.5rem;
-  }
-
-  .topbar__logout {
-    padding-right: 0.625rem;
-    padding-left: 0.625rem;
   }
 }

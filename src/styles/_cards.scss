@@ -18,6 +18,7 @@
 }
 
 .tf-card__header {
+  background-color: var(--tf-surface);
   border-bottom: 1px solid var(--tf-border-color);
 }
 
@@ -29,12 +30,13 @@
 .tf-card__title {
   margin-bottom: 0.25rem;
   color: var(--tf-body-color);
-  font-size: 1.25rem;
+  font-size: 1.0625rem;
   line-height: 1.25;
   overflow-wrap: anywhere;
 }
 
 .tf-card .card-subtitle {
+  font-size: 0.875rem;
   line-height: 1.5;
   overflow-wrap: anywhere;
 }

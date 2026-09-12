@@ -1,5 +1,6 @@
 import type { LayoutUser } from './AppLayout'
 import { Link, NavLink } from 'react-router-dom'
+import { ProjectIcon } from '../common/ProjectIcon'
 import { navigationItems, type NavigationIcon } from './navigation'
 
 interface NavigationIconProps {
@@ -82,7 +83,7 @@ export function Sidebar({ currentUser, onLogout }: SidebarProps) {
     <aside className="sidebar" aria-label="Primary sidebar">
       <Link to="/" className="sidebar__brand" aria-label="TeamFlow home">
         <span className="sidebar__brand-mark" aria-hidden="true">
-          T
+          <ProjectIcon size={23} />
         </span>
         <span className="sidebar__brand-name">TeamFlow</span>
       </Link>

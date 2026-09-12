@@ -4,6 +4,7 @@ import { Card } from '../common/Card'
 import { Link } from 'react-router-dom'
 import type { Project } from '../../types'
 import { formatProjectDate } from '../../utils/projectDate'
+import { ProjectIcon } from '../common/ProjectIcon'
 
 export interface ProjectCardProps {
   project: Project
@@ -16,7 +17,10 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
     <Card
       title={
         <Link to={`/projects/${project.id}`} className="project-card__title-link">
-          {project.name}
+          <span className="project-card__title-content">
+            <ProjectIcon size={19} />
+            <span>{project.name}</span>
+          </span>
         </Link>
       }
       subtitle={project.description}

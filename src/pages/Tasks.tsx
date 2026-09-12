@@ -143,7 +143,7 @@ export function Tasks() {
         <section aria-label="Task list">
           <div className="row g-4">
             {visibleTasks.map((task) => (
-              <div key={task.id} className="col-12 col-md-6 col-xxl-4">
+              <div key={task.id} className="col-12 col-xl-6">
                 <TaskCard
                   task={task}
                   project={projects.find((project) => project.id === task.projectId)}

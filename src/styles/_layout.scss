@@ -1,12 +1,15 @@
 #root {
   height: 100vh;
   min-height: 100vh;
+  height: 100dvh;
+  min-height: 100dvh;
   overflow: hidden;
 }
 
 .app-layout {
   display: flex;
   height: 100vh;
+  height: 100dvh;
   min-height: 0;
   overflow: hidden;
   background-color: var(--tf-body-bg);
@@ -15,6 +18,7 @@
 .app-layout__main {
   display: flex;
   height: 100vh;
+  height: 100dvh;
   min-width: 0;
   flex: 1 1 auto;
   flex-direction: column;
@@ -33,7 +37,8 @@
 
 .app-layout__container {
   width: 100%;
-  max-width: 100%;
+  max-width: 100rem;
+  margin-inline: auto;
   padding-right: 1.5rem;
   padding-left: 1.5rem;
 }

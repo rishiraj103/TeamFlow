@@ -2,7 +2,15 @@ import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
 import { Tasks } from '../pages/Tasks'
+import { useProjects } from '../context/useProjects'
 import { renderWithProviders } from './test-utils'
+
+function MarketplaceProgressProbe() {
+  const { projects } = useProjects()
+  const project = projects.find((candidate) => candidate.id === 'project-marketplace-refresh')
+
+  return <output aria-label="Marketplace Refresh progress">{project?.progress}%</output>
+}
 
 async function fillNewTaskForm() {
   const user = userEvent.setup()
@@ -86,5 +94,29 @@ describe('task workflows', () => {
     expect(
       screen.queryByRole('heading', { name: 'Polish marketplace search filters' }),
     ).not.toBeInTheDocument()
+  })
+
+  it('updates the related project progress when a task status changes', async () => {
+    const user = userEvent.setup()
+    renderWithProviders(
+      <>
+        <Tasks />
+        <MarketplaceProgressProbe />
+      </>,
+      { initialEntries: ['/tasks'] },
+    )
+
+    expect(screen.getByLabelText('Marketplace Refresh progress')).toHaveTextContent('0%')
+
+    const taskHeading = screen.getByRole('heading', { name: 'Polish marketplace search filters' })
+    const taskCard = taskHeading.closest('section')
+    expect(taskCard).not.toBeNull()
+
+    await user.selectOptions(
+      within(taskCard!).getByRole('combobox', { name: /^Status/ }),
+      'completed',
+    )
+
+    expect(screen.getByLabelText('Marketplace Refresh progress')).toHaveTextContent('33%')
   })
 })

@@ -67,8 +67,8 @@ export function TaskFilters({ filters, projects, assignees, onChange, onReset }:
 
   return (
     <section className="task-filters" aria-label="Task filters">
-      <div className="row align-items-end g-3">
-        <div className="col-12 col-xl-4">
+      <div className="task-filters__primary row align-items-end g-3">
+        <div className="col-12 col-lg-5">
           <Input
             label="Search tasks"
             name="task-search"
@@ -78,7 +78,7 @@ export function TaskFilters({ filters, projects, assignees, onChange, onReset }:
             placeholder="Search title or description"
           />
         </div>
-        <div className="col-12 col-sm-6 col-xl-2">
+        <div className="col-12 col-sm-6 col-lg-3">
           <Select
             label="Status"
             name="task-status-filter"
@@ -90,7 +90,7 @@ export function TaskFilters({ filters, projects, assignees, onChange, onReset }:
             placeholder="Choose status"
           />
         </div>
-        <div className="col-12 col-sm-6 col-xl-2">
+        <div className="col-12 col-sm-6 col-lg-2">
           <Select
             label="Priority"
             name="task-priority-filter"
@@ -102,37 +102,7 @@ export function TaskFilters({ filters, projects, assignees, onChange, onReset }:
             placeholder="Choose priority"
           />
         </div>
-        <div className="col-12 col-sm-6 col-xl-2">
-          <Select
-            label="Project"
-            name="task-project-filter"
-            value={filters.projectId}
-            onChange={(event) => onChange({ projectId: event.target.value || 'all' })}
-            options={projectOptions}
-            placeholder="Choose project"
-          />
-        </div>
-        <div className="col-12 col-sm-6 col-xl-2">
-          <Select
-            label="Assignee"
-            name="task-assignee-filter"
-            value={filters.assigneeId}
-            onChange={(event) => onChange({ assigneeId: event.target.value || 'all' })}
-            options={assigneeOptions}
-            placeholder="Choose assignee"
-          />
-        </div>
-        <div className="col-12 col-lg-8 col-xl-9">
-          <Select
-            label="Sort by"
-            name="task-sort"
-            value={getTaskSortOption(filters)}
-            onChange={(event) => handleSortChange(event.target.value)}
-            options={taskSortOptions}
-            placeholder="Choose sorting"
-          />
-        </div>
-        <div className="col-12 col-lg-4 col-xl-3">
+        <div className="col-12 col-lg-2">
           <Button
             type="button"
             variant="outline"
@@ -143,6 +113,42 @@ export function TaskFilters({ filters, projects, assignees, onChange, onReset }:
           </Button>
         </div>
       </div>
+
+      <details className="task-filters__advanced">
+        <summary>More filters and sorting</summary>
+        <div className="row align-items-end g-3 pt-3">
+          <div className="col-12 col-sm-6 col-lg-4">
+            <Select
+              label="Project"
+              name="task-project-filter"
+              value={filters.projectId}
+              onChange={(event) => onChange({ projectId: event.target.value || 'all' })}
+              options={projectOptions}
+              placeholder="Choose project"
+            />
+          </div>
+          <div className="col-12 col-sm-6 col-lg-4">
+            <Select
+              label="Assignee"
+              name="task-assignee-filter"
+              value={filters.assigneeId}
+              onChange={(event) => onChange({ assigneeId: event.target.value || 'all' })}
+              options={assigneeOptions}
+              placeholder="Choose assignee"
+            />
+          </div>
+          <div className="col-12 col-lg-4">
+            <Select
+              label="Sort by"
+              name="task-sort"
+              value={getTaskSortOption(filters)}
+              onChange={(event) => handleSortChange(event.target.value)}
+              options={taskSortOptions}
+              placeholder="Choose sorting"
+            />
+          </div>
+        </div>
+      </details>
     </section>
   )
 }

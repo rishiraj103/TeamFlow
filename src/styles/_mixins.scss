@@ -2,7 +2,7 @@
 
 @mixin focus-ring {
   &:focus-visible {
-    outline: 3px solid rgba($primary, 0.28);
+    outline: 3px solid var(--tf-focus-color, #{$primary});
     outline-offset: 3px;
   }
 }

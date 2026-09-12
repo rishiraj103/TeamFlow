@@ -86,7 +86,7 @@
 .metric-bar__fill,
 .progress-metric__fill,
 .completion-metric__fill {
-  background: linear-gradient(90deg, $primary, #7b5cff);
+  background: var(--tf-accent);
   border-radius: inherit;
 }
 

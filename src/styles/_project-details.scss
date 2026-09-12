@@ -79,7 +79,7 @@
 }
 
 .project-details-page__summary .progress-bar {
-  background: linear-gradient(90deg, $primary, #7b5cff);
+  background: var(--tf-accent);
   border-radius: inherit;
 }
 
@@ -106,12 +106,12 @@
   @include focus-ring;
 
   &:hover {
-    color: $primary;
+    color: var(--tf-accent-text);
   }
 
   &.is-active {
-    color: $primary;
-    border-bottom-color: $primary;
+    color: var(--tf-accent-text);
+    border-bottom-color: var(--tf-accent-text);
   }
 }
 
@@ -226,7 +226,7 @@
 }
 
 .project-details-page__member-item a {
-  color: $primary;
+  color: var(--tf-accent-text);
   font-size: 0.8125rem;
   text-decoration: none;
   overflow-wrap: anywhere;

@@ -1,13 +1,18 @@
 :root,
 [data-theme='light'] {
   color-scheme: light;
-  --tf-body-bg: #f4f7fb;
-  --tf-body-color: #172033;
+  --tf-body-bg: #f5f7f8;
+  --tf-body-color: #1b2935;
   --tf-surface: #ffffff;
-  --tf-surface-muted: #eef2f8;
+  --tf-surface-muted: #edf2f3;
   --tf-text-muted: #63708a;
   --tf-text-subtle: #63708a;
-  --tf-border-color: #dce3ee;
+  --tf-border-color: #dce4e7;
+  --tf-accent: #087f73;
+  --tf-accent-text: #076e64;
+  --tf-accent-soft: #e5f3ef;
+  --tf-focus-color: #087f73;
+  --tf-input-border: #a3b3ba;
   --tf-muted-soft-bg: rgba(99, 112, 138, 0.13);
   --tf-info-text: #1d638a;
   --tf-info-soft-bg: #e9f6fb;
@@ -17,7 +22,7 @@
   --tf-danger-border-color: #efb8be;
   --bs-body-bg: var(--tf-body-bg);
   --bs-body-color: var(--tf-body-color);
-  --bs-body-color-rgb: 23, 32, 51;
+  --bs-body-color-rgb: 27, 41, 53;
   --bs-border-color: var(--tf-border-color);
   --bs-emphasis-color: var(--tf-body-color);
   --bs-secondary-color: var(--tf-text-muted);
@@ -26,10 +31,10 @@
   --bs-card-border-color: var(--tf-border-color);
   --bs-card-cap-bg: var(--tf-surface);
   --bs-card-color: var(--tf-body-color);
-  --bs-link-color: #4358dd;
-  --bs-link-hover-color: #3748c3;
-  --bs-link-color-rgb: 67, 88, 221;
-  --bs-link-hover-color-rgb: 55, 72, 195;
+  --bs-link-color: #076e64;
+  --bs-link-hover-color: #05574f;
+  --bs-link-color-rgb: 7, 110, 100;
+  --bs-link-hover-color-rgb: 5, 87, 79;
   --bs-modal-bg: var(--tf-surface);
   --bs-modal-color: var(--tf-body-color);
   --bs-modal-border-color: var(--tf-border-color);
@@ -37,13 +42,18 @@
 
 [data-theme='dark'] {
   color-scheme: dark;
-  --tf-body-bg: #0f172a;
+  --tf-body-bg: #10191f;
   --tf-body-color: #e8edf7;
-  --tf-surface: #172235;
-  --tf-surface-muted: #202d43;
+  --tf-surface: #18252d;
+  --tf-surface-muted: #22323b;
   --tf-text-muted: #aab7cc;
   --tf-text-subtle: #8796ae;
-  --tf-border-color: #34445f;
+  --tf-border-color: #344650;
+  --tf-accent: #56cbb8;
+  --tf-accent-text: #83dfcd;
+  --tf-accent-soft: #203c3d;
+  --tf-focus-color: #83dfcd;
+  --tf-input-border: #718891;
   --tf-muted-soft-bg: rgba(170, 183, 204, 0.16);
   --tf-info-text: #a9ddf4;
   --tf-info-soft-bg: rgba(59, 158, 219, 0.16);
@@ -62,10 +72,10 @@
   --bs-card-border-color: var(--tf-border-color);
   --bs-card-cap-bg: var(--tf-surface);
   --bs-card-color: var(--tf-body-color);
-  --bs-link-color: #91a0ff;
-  --bs-link-hover-color: #b5beff;
-  --bs-link-color-rgb: 145, 160, 255;
-  --bs-link-hover-color-rgb: 181, 190, 255;
+  --bs-link-color: #83dfcd;
+  --bs-link-hover-color: #adede1;
+  --bs-link-color-rgb: 131, 223, 205;
+  --bs-link-hover-color-rgb: 173, 237, 225;
   --bs-modal-bg: var(--tf-surface);
   --bs-modal-color: var(--tf-body-color);
   --bs-modal-border-color: var(--tf-border-color);
@@ -138,11 +148,74 @@ body {
 .form-check-input {
   color: var(--tf-body-color);
   background-color: var(--tf-surface);
-  border-color: var(--tf-border-color);
+  border-color: var(--tf-input-border);
 }
 
 .form-control::placeholder {
   color: var(--tf-text-subtle);
+}
+
+.form-check-input:checked {
+  background-color: $primary;
+  border-color: $primary;
+}
+
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+  color: var(--tf-body-color);
+  border-color: var(--tf-focus-color);
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--tf-focus-color) 20%, transparent);
+}
+
+.sidebar__nav-link.is-active::before,
+.sidebar__nav-link[aria-current='page']::before {
+  background-color: var(--tf-accent-text);
+}
+
+.tf-card__title,
+.modal-title {
+  letter-spacing: -0.025em;
+}
+
+.stat-card__value,
+.completion-metric__value,
+.project-progress__percentage {
+  font-variant-numeric: tabular-nums;
+}
+
+.projects-page__filters,
+.task-filters,
+.team-page__filters {
+  background-color: var(--tf-surface) !important;
+}
+
+.btn:not(.btn-icon) {
+  min-height: 2.5rem;
+  padding-inline: 1rem;
+}
+
+.btn-teamflow-ghost:hover,
+.btn-teamflow-ghost:active {
+  color: var(--tf-accent-text);
+  background-color: var(--tf-accent-soft);
+}
+
+.activity-list__avatar-placeholder,
+.task-card__assignee-placeholder,
+.empty-state__icon {
+  color: var(--tf-accent-text);
+  background-color: var(--tf-accent-soft);
+}
+
+.project-card__title-link:hover,
+.project-progress__name:hover,
+.progress-metric__name:hover {
+  color: var(--tf-accent-text);
+}
+
+.auth-page .tf-card {
+  box-shadow: 0 16px 48px rgba(16, 25, 31, 0.08);
 }
 
 .form-text,
@@ -168,7 +241,6 @@ body {
 
 .sidebar__brand,
 .sidebar__user-copy strong,
-.topbar__profile-copy strong,
 .topbar__title,
 .settings-page__title,
 .settings-fieldset__legend,
@@ -184,16 +256,14 @@ body {
   color: var(--tf-text-muted);
 }
 
-.sidebar__user-copy span,
-.topbar__profile-copy span,
-.topbar__eyebrow {
+.sidebar__user-copy span {
   color: var(--tf-text-subtle);
 }
 
 .sidebar__brand-mark,
 .topbar__notification-count,
 .field-error > span:first-child {
-  color: var(--tf-surface);
+  color: #ffffff;
 }
 
 .sidebar__nav-link:hover,
@@ -202,7 +272,8 @@ body {
 .topbar__notification:hover,
 .topbar__menu-toggle:hover,
 .mobile-navigation__close:hover {
-  background-color: rgba(83, 107, 255, 0.14);
+  color: var(--tf-accent-text);
+  background-color: var(--tf-accent-soft);
 }
 
 .btn-teamflow-ghost {
@@ -254,14 +325,18 @@ body {
   color-scheme: dark;
 }
 
+[data-theme='dark'] .form-select {
+  --bs-form-select-bg-img: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23aab7cc' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+}
+
 [data-theme='dark'] .sidebar__nav-link.is-active,
 [data-theme='dark'] .sidebar__nav-link[aria-current='page'] {
-  color: #b5beff;
+  color: var(--tf-accent-text);
 }
 
 [data-theme='dark'] .layout-avatar {
-  color: #b5beff;
-  background-color: rgba(145, 160, 255, 0.16);
+  color: var(--tf-accent-text);
+  background-color: var(--tf-accent-soft);
 }
 
 [data-theme='dark'] .status-badge--active,
@@ -281,8 +356,8 @@ body {
 }
 
 [data-theme='dark'] .status-badge--in-progress {
-  color: #b5beff;
-  background-color: rgba(145, 160, 255, 0.18);
+  color: var(--tf-accent-text);
+  background-color: var(--tf-accent-soft);
 }
 
 [data-theme='dark'] .priority-badge--high {

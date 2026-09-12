@@ -12,11 +12,9 @@ export type LayoutUser = AuthUser
 
 export interface AppLayoutProps {
   pageTitle: string
-  pageEyebrow?: string
-  notificationCount?: number
 }
 
-export function AppLayout({ pageTitle, pageEyebrow, notificationCount = 0 }: AppLayoutProps) {
+export function AppLayout({ pageTitle }: AppLayoutProps) {
   const [mobileNavigationOpen, setMobileNavigationOpen] = useState(false)
   const { currentUser: authenticatedUser, logout } = useAuth()
   const navigate = useNavigate()
@@ -35,12 +33,8 @@ export function AppLayout({ pageTitle, pageEyebrow, notificationCount = 0 }: App
       <div className="app-layout__main">
         <Topbar
           title={pageTitle}
-          eyebrow={pageEyebrow}
-          notificationCount={notificationCount}
-          currentUser={currentUser}
           mobileNavigationOpen={mobileNavigationOpen}
           onMobileNavigationToggle={() => setMobileNavigationOpen((isOpen) => !isOpen)}
-          onLogout={handleLogout}
         />
 
         <main className="app-layout__content">

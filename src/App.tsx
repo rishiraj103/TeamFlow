@@ -46,15 +46,7 @@ function App() {
                     </Route>
 
                     <Route element={<ProtectedRoute />}>
-                      <Route
-                        element={
-                          <AppLayout
-                            pageTitle="TeamFlow workspace"
-                            pageEyebrow="Application"
-                            notificationCount={3}
-                          />
-                        }
-                      >
+                      <Route element={<AppLayout pageTitle="TeamFlow workspace" />}>
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/projects" element={<Projects />} />
                         <Route path="/projects/:projectId" element={<ProjectDetails />} />

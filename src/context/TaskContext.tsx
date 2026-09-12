@@ -1,11 +1,13 @@
-import { useCallback, useMemo, useState, type ReactNode } from 'react'
+import { useCallback, useLayoutEffect, useMemo, useState, type ReactNode } from 'react'
 import { STORAGE_KEYS } from '../constants/storage'
 import { tasks as seedTasks } from '../data/tasks'
 import { getItem, setItem } from '../services/storage'
 import { isTaskArray } from '../services/storageValidation'
 import type { Task, TaskStatus } from '../types'
 import { taskStatusLabels } from '../utils/taskLabels'
+import { calculateProgressByProject } from '../utils/projectProgress'
 import { useActivities } from './useActivities'
+import { useProjects } from './useProjects'
 import { TaskContext, type TaskContextValue, type TaskDraft } from './taskContextValue'
 
 function createTaskId(existingTasks: Task[]): string {
@@ -45,6 +47,7 @@ function readInitialTasksState(): InitialTasksState {
 
 export function TaskProvider({ children }: TaskProviderProps) {
   const { recordActivity } = useActivities()
+  const { projects, syncProjectProgress } = useProjects()
   const [initialState] = useState<InitialTasksState>(readInitialTasksState)
   const [tasks, setTasks] = useState<Task[]>(initialState.tasks)
   const [error, setError] = useState<string | null>(initialState.error)
@@ -65,6 +68,17 @@ export function TaskProvider({ children }: TaskProviderProps) {
     persistTasks(tasks)
   }, [persistTasks, tasks])
 
+  const synchronizeProjectProgress = useCallback(
+    (nextTasks: Task[]) => {
+      syncProjectProgress(calculateProgressByProject(projects, nextTasks))
+    },
+    [projects, syncProjectProgress],
+  )
+
+  useLayoutEffect(() => {
+    synchronizeProjectProgress(tasks)
+  }, [synchronizeProjectProgress, tasks])
+
   const createTask = useCallback(
     (task: TaskDraft) => {
       const newTask: Task = {
@@ -75,6 +89,7 @@ export function TaskProvider({ children }: TaskProviderProps) {
       const nextTasks = [newTask, ...tasks]
       setTasks(nextTasks)
       persistTasks(nextTasks)
+      synchronizeProjectProgress(nextTasks)
       recordActivity({
         type: 'task-created',
         description: `created the ${newTask.title} task`,
@@ -83,7 +98,7 @@ export function TaskProvider({ children }: TaskProviderProps) {
       })
       return newTask
     },
-    [persistTasks, recordActivity, tasks],
+    [persistTasks, recordActivity, synchronizeProjectProgress, tasks],
   )
 
   const updateTask = useCallback(
@@ -103,6 +118,8 @@ export function TaskProvider({ children }: TaskProviderProps) {
       persistTasks(nextTasks)
 
       const statusChanged = updates.status !== undefined && updates.status !== task.status
+      synchronizeProjectProgress(nextTasks)
+
       const activityType = statusChanged
         ? updates.status === 'completed'
           ? 'task-completed'
@@ -121,7 +138,7 @@ export function TaskProvider({ children }: TaskProviderProps) {
         taskId: task.id,
       })
     },
-    [persistTasks, recordActivity, tasks],
+    [persistTasks, recordActivity, synchronizeProjectProgress, tasks],
   )
 
   const deleteTask = useCallback(
@@ -135,6 +152,7 @@ export function TaskProvider({ children }: TaskProviderProps) {
       const nextTasks = tasks.filter((currentTask) => currentTask.id !== taskId)
       setTasks(nextTasks)
       persistTasks(nextTasks)
+      synchronizeProjectProgress(nextTasks)
       recordActivity({
         type: 'task-deleted',
         description: `deleted the ${task.title} task`,
@@ -142,7 +160,7 @@ export function TaskProvider({ children }: TaskProviderProps) {
         taskId: task.id,
       })
     },
-    [persistTasks, recordActivity, tasks],
+    [persistTasks, recordActivity, synchronizeProjectProgress, tasks],
   )
 
   const updateTaskStatus = useCallback(
@@ -158,6 +176,7 @@ export function TaskProvider({ children }: TaskProviderProps) {
       )
       setTasks(nextTasks)
       persistTasks(nextTasks)
+      synchronizeProjectProgress(nextTasks)
 
       recordActivity({
         type: status === 'completed' ? 'task-completed' : 'task-status-changed',
@@ -169,7 +188,7 @@ export function TaskProvider({ children }: TaskProviderProps) {
         taskId: task.id,
       })
     },
-    [persistTasks, recordActivity, tasks],
+    [persistTasks, recordActivity, synchronizeProjectProgress, tasks],
   )
 
   const value = useMemo<TaskContextValue>(

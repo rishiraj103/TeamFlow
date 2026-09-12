@@ -60,41 +60,43 @@ export function TaskCard({
           </div>
         </div>
 
-        <div className="task-card__status-control field-group">
-          <label htmlFor={`task-status-${task.id}`} className="form-label">
-            Status
-          </label>
-          <select
-            id={`task-status-${task.id}`}
-            className="form-select form-select-sm"
-            value={task.status}
-            onChange={(event) => onStatusChange(task.id, event.target.value as TaskStatus)}
-          >
-            {TASK_STATUSES.map((status) => (
-              <option key={status} value={status}>
-                {taskStatusLabels[status]}
-              </option>
-            ))}
-          </select>
-        </div>
+        <div className="task-card__controls">
+          <div className="task-card__status-control field-group">
+            <label htmlFor={`task-status-${task.id}`} className="form-label">
+              Status
+            </label>
+            <select
+              id={`task-status-${task.id}`}
+              className="form-select form-select-sm"
+              value={task.status}
+              onChange={(event) => onStatusChange(task.id, event.target.value as TaskStatus)}
+            >
+              {TASK_STATUSES.map((status) => (
+                <option key={status} value={status}>
+                  {taskStatusLabels[status]}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        <div className="task-card__actions d-flex flex-wrap gap-2 mt-auto pt-4">
-          <Button
-            variant="ghost"
-            className="btn-sm"
-            aria-label={`Edit ${task.title}`}
-            onClick={() => onEdit(task)}
-          >
-            Edit
-          </Button>
-          <Button
-            variant="danger"
-            className="btn-sm"
-            aria-label={`Delete ${task.title}`}
-            onClick={() => onDelete(task)}
-          >
-            Delete
-          </Button>
+          <div className="task-card__actions d-flex flex-wrap gap-2">
+            <Button
+              variant="ghost"
+              className="btn-sm"
+              aria-label={`Edit ${task.title}`}
+              onClick={() => onEdit(task)}
+            >
+              Edit
+            </Button>
+            <Button
+              variant="danger"
+              className="btn-sm"
+              aria-label={`Delete ${task.title}`}
+              onClick={() => onDelete(task)}
+            >
+              Delete
+            </Button>
+          </div>
         </div>
       </div>
     </Card>

@@ -12,9 +12,9 @@
 }
 
 .task-filters {
-  padding: 1.25rem;
+  padding: 1rem;
   margin-bottom: 1.5rem;
-  background-color: var(--tf-surface-muted);
+  background-color: var(--tf-surface);
   border: 1px solid var(--tf-border-color);
   border-radius: $border-radius;
 }
@@ -27,13 +27,39 @@
   min-height: 2.75rem;
 }
 
+.task-filters__advanced {
+  margin-top: 1rem;
+  border-top: 1px solid var(--tf-border-color);
+}
+
+.task-filters__advanced summary {
+  display: inline-flex;
+  padding-top: 1rem;
+  color: var(--tf-accent-text);
+  cursor: pointer;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  list-style-position: inside;
+  outline: none;
+}
+
+.task-filters__advanced summary:focus-visible {
+  border-radius: 0.25rem;
+  outline: 3px solid color-mix(in srgb, var(--tf-focus-color) 28%, transparent);
+  outline-offset: 3px;
+}
+
+.task-filters__advanced[open] summary {
+  margin-bottom: 0.25rem;
+}
+
 .task-card {
   display: flex;
   flex-direction: column;
 }
 
 .task-card .tf-card__header {
-  min-height: 9.5rem;
+  min-height: 7.5rem;
 }
 
 .task-card .tf-card__title,
@@ -65,13 +91,14 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
 }
 
 .task-card__details {
   display: grid;
-  gap: 0.875rem;
-  margin-bottom: 1.25rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.875rem 1.25rem;
+  margin-bottom: 1rem;
 }
 
 .task-card__details div {
@@ -133,7 +160,7 @@
 }
 
 .task-card__status-control {
-  margin-top: 1.25rem;
+  margin: 0;
 }
 
 .task-card__status-control .form-label {
@@ -143,6 +170,20 @@
 
 .task-card__actions .btn {
   min-width: 4.5rem;
+}
+
+.task-card__controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: end;
+  padding-top: 1rem;
+  margin-top: auto;
+  border-top: 1px solid var(--tf-border-color);
+}
+
+.task-card__actions {
+  padding-top: 0 !important;
 }
 
 .task-form__actions {
@@ -157,5 +198,13 @@
 
   .task-card__actions .btn {
     flex: 1 1 auto;
+  }
+
+  .task-card__controls {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .task-card__actions {
+    width: 100%;
   }
 }

@@ -10,6 +10,7 @@ export interface ProjectContextValue {
   retryPersistence: () => void
   createProject: (project: ProjectDraft) => Project
   updateProject: (projectId: string, updates: Partial<Omit<Project, 'id'>>) => void
+  syncProjectProgress: (progressByProject: Readonly<Record<string, number>>) => void
   deleteProject: (projectId: string) => void
 }
 

@@ -65,14 +65,14 @@
 .team-member-card__email {
   align-self: flex-start;
   max-width: 100%;
-  color: $primary;
+  color: var(--tf-accent-text);
   font-size: 0.875rem;
   overflow-wrap: anywhere;
   text-decoration: none;
   @include focus-ring;
 
   &:hover {
-    color: darken($primary, 12%);
+    color: var(--bs-link-hover-color);
     text-decoration: underline;
   }
 }
@@ -109,7 +109,7 @@
   }
 }
 
-@media (max-width: 767.98px) {
+@media (max-width: 991.98px) {
   .team-page__grid {
     grid-template-columns: minmax(0, 1fr);
   }

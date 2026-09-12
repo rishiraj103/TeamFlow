@@ -23,7 +23,13 @@
 }
 
 .stat-card .tf-card__header {
-  min-height: 7rem;
+  min-height: 5.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 0;
+}
+
+.stat-card .tf-card__body {
+  padding-top: 0.5rem;
 }
 
 .stat-card .tf-card__title {
@@ -110,7 +116,7 @@
 
 .project-progress__bar .progress-bar,
 .task-distribution__bar .progress-bar {
-  background: linear-gradient(90deg, $primary, #7b5cff);
+  background: var(--tf-accent);
   border-radius: inherit;
 }
 

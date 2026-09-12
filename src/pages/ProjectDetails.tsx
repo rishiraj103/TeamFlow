@@ -8,6 +8,7 @@ import { LoadingState } from '../components/common/LoadingState'
 import { Modal } from '../components/common/Modal'
 import { ProjectDeleteModal } from '../components/projects/ProjectDeleteModal'
 import { ProjectForm } from '../components/projects/ProjectForm'
+import { ProjectIcon } from '../components/common/ProjectIcon'
 import { useActivities } from '../context/useActivities'
 import { useAuth } from '../context/useAuth'
 import { useProjects } from '../context/useProjects'
@@ -318,7 +319,10 @@ export function ProjectDetails() {
       <header className="project-details-page__header">
         <div className="project-details-page__heading">
           <p className="section-kicker">Project details</p>
-          <h1>{currentProject.name}</h1>
+          <h1 className="project-details-page__title">
+            <ProjectIcon size={32} />
+            <span>{currentProject.name}</span>
+          </h1>
           <p>{currentProject.description}</p>
         </div>
         <div className="project-details-page__actions d-flex flex-wrap gap-2">
